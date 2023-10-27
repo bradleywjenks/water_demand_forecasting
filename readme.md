@@ -1,3 +1,1 @@
-# Battle of Water Demand Forecasting
-
-## Tasks
+## Battle of Water Demand Forecasting
