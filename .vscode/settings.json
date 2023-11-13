@@ -1,4 +1,4 @@
 {
-    "julia.environmentPath": "~/.julia/environments/Julia_v1_9_3__IAI_v3_2_0",
-    "julia.executablePath": "~/.julia/artifacts/2b387c5fce8ffb5a230d23e50f702292d6855ed4/system-image-loader --julia=1.9.3 --package=IAISystemImages --image=Julia_v1_9_3__IAI_v3_2_0 --"
+    "julia.environmentPath": "/home/bradw/.julia/environments/Julia_v1_9_3__IAI_v3_2_0",
+    "julia.executablePath": "/home/bradw/.julia/juliaup/julia-1.9.3+0.x64.linux.gnu/bin/julia -Cnative -J/home/bradw/.julia/artifacts/5f4ef55ac93b05a932a9f23506f5dbce9f3fe0e8/environments/Julia_v1_9_3__IAI_v3_2_0/Julia_v1_9_3__IAI_v3_2_0.so -g1"
 }

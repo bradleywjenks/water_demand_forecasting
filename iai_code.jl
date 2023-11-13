@@ -84,17 +84,17 @@ begin
 
     # # comparison plot
     time = 1:length(test_y)
-    # plt = plot(time, test_y, label="Actual")
-    # plt = plot!(time, predict_y, label="Predict")
+    plt = plot(time, test_y, label="Actual")
+    plt = plot!(time, predict_y, label="Predict")
 
-    # plt = xlabel!("Time")
-    # plt = ylabel!("Value")
-    # plt = title!("Time Series Plot")
+    plt = xlabel!("Time")
+    plt = ylabel!("Value")
+    plt = title!("Time Series Plot")
 
-    # # Show the plot
-    # display()
+    # Show the plot
+    display(plt)
 
     # write results to csv file
-    results_df = DataFrame(Time=time, Series1=test_y, Series2=predict_y)
-    CSV.write(data_path * "results.csv", results_df)
+    # results_df = DataFrame(Time=time, Series1=test_y, Series2=predict_y)
+    # CSV.write(data_path * "results.csv", results_df)
 end
