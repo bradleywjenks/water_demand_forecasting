@@ -38,16 +38,22 @@ begin
     df_feat = DataFrame()
     df_feat = unique(rightjoin(df_time, weather_df, on=:date_time))
 
-
     # select DMA to analyze and merge feature and inflow dataframes
-    dma_id = "dma_c"
+    dma_id = "dma_a"
     df = DataFrame()
     df = leftjoin(inflow_df[!, ["date_time", dma_id]], df_feat, on=:date_time)
 
     # data cleanup
     delete!(df, [7274, 7277]) # delete duplicate data from autumn time change
     rename!(df, Dict(dma_id => :dma_inflow))
+
+    df.prev_h_inflow = [fill(missing, 1); df.dma_inflow[1:end-1]]
+    df.prev_day_inflow = [fill(missing, 24); df.dma_inflow[1:end-24]]
+    df.prev_week_inflow = [fill(missing, 168); df.dma_inflow[1:end-168]]
+
     dropmissing!(df)
+
+    df
 
 end
 
@@ -77,15 +83,17 @@ begin
 
     predict_y = IAI.predict(grid, test_X)
 
-    # print(IAI.score(grid, train_X, train_y, criterion=:mse))
+    print(IAI.score(grid, train_X, train_y, criterion=:mse))
     print(IAI.score(grid, test_X, test_y, criterion=:mse))
 
     predict_y
 
     # # comparison plot
     time = 1:length(test_y)
-    plt = plot(time, test_y, label="Actual")
-    plt = plot!(time, predict_y, label="Predict")
+    # plt = plot(time, test_y, label="Actual")
+    # plt = plot!(time, predict_y, label="Predict")
+    plt = plot(time[1:168], test_y[1:168], label="Actual")
+    plt = plot!(time[1:168], predict_y[1:168], label="Predict")
 
     plt = xlabel!("Time")
     plt = ylabel!("Value")
