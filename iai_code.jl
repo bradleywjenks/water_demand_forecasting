@@ -10,6 +10,7 @@ begin
 	using StatsPlots
 	using Statistics
 	using ColorSchemes
+    using Graphviz_jll
 	include("src/functions.jl")
 end
 
@@ -23,7 +24,7 @@ end
 # Plot time series data
 begin
 	data_type = "inflow" # "inflow", "weather"
-	col_names = [:dma_b] # [:dma_a]
+	col_names = [:dma_g] # [:dma_a]
 	y_label = "Inflow [L/s]"
 	start_date = DateTime("2022-01-01")
 	end_date = DateTime("2022-07-23")
@@ -34,7 +35,7 @@ begin
 		plot_df = filter(row -> start_date <= row.date_time <= end_date, 	weather_df)
 	end
 	
-	@df plot_df plot(:date_time, cols(col_names), ylabel=y_label, palette=:Set1_5, size=(700, 400))
+	@df plot_df plot(:date_time, cols(col_names), ylabel=y_label, palette=:seaborn_bright, size=(800, 350), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
 end
 
 
@@ -93,73 +94,105 @@ end
 # Create master dataframe from imputed datasets
 begin
 	dma_id = :dma_a
-	lag_times = (1, 24, 168)
+	lag_times = (1, 24)
 	master_df = make_dataframe(X_inflow, X_weather, lag_times, dma_id)
-    dropmissing(master_df) # missing data created by lag feature values
+    master_df = dropmissing(master_df) # missing data created by lag feature values
 end
 
 # Split train and test datasets
+"""
+Further exploration on the length of training data is needed.
+"""
+
+begin
+    # Train dataset
+    X_train = master_df[1:end-168, 3:end]
+    y_train = master_df[1:end-168, 2]
+
+    # Test dataset
+    X_test = master_df[end-167:end, 3:end]
+    y_test = master_df[end-167:end, 2]
+end
+
+# Run IAI optimal regression tress algorithm
+"""
+    Further exploration of parameter tuning is needed:
+    - different performance criterion (default is :mse)
+    - max tree depth
+
+"""
+
+begin
+    grid = IAI.GridSearch(
+        IAI.OptimalTreeRegressor(
+            random_seed=123,
+        ),
+        max_depth=1:10,
+    )
+    IAI.fit!(grid, X_train, y_train, X_test, y_test)
+end
+
+# Print optimal regression tree results
+begin
+
+    # get learner
+    opt_tree = IAI.get_learner(grid)
+
+    # print summary statistics
+    println(IAI.get_grid_result_summary(grid))
+    println(IAI.score(grid, X_train, y_train, criterion=:mse))
+
+    # save decision tree plot
+    plot_path = "/home/bradw/workspace/water_demand_forecasting/plots/"
+    IAI.write_html(plot_path * "opt_tree.html", opt_tree)
+    IAI.write_svg(plot_path * "opt_tree.svg", opt_tree)
+
+end
+
+
+
+
+########## RESULTING PLOTTING AND SUMMARY STATISTICS ##########
+
+# Compute test data performance indicators
 begin
     
+    # get predicted y values
+    y_predict = IAI.predict(grid, X_test)
+
+    # performance metric no. 1: mean absolute error (MAE) over first 24-h period
+    mae_24h = (1/24) * sum(abs.(y_test[1:24] .- y_predict[1:24]))
+    println("MAE of first 24h period: $mae_24h L/s")
+
+    # performance metric no. 2: max absolute error over first 24-h period
+    max_error_24h = maximum(abs.(y_test[1:24] .- y_predict[1:24]))
+    println("Maximum absolute error of first 24h period: $max_error_24h L/s")
+
+    # performance metric no. 1: mean absolute error (MAE) over first 24-h period
+    mae_25h_to_168h = (1/144) * sum(abs.(y_test[25:168] .- y_predict[25:168]))
+    println("MAE of last 144h period: $mae_25h_to_168h L/s")
+
+end
+
+
+# Plot predicted inflow data
+begin
+
+    # plot inputs
+	y_label = "Inflow [L/s]"
+    no_prev_steps = 3 * 168 # 3 weeks of previous inflow data
+
+    prev_df = master_df[end-167-no_prev_steps:end, [:date_time, :dma_inflow]]
+    predict_df = DataFrame(:date_time => master_df[end-167:end, :date_time], :dma_inflow => y_predict)
+    actual_df = DataFrame(:date_time => master_df[end-167:end, :date_time], :dma_inflow => y_test)
+
+	@df prev_df plot(:date_time, :dma_inflow, ylabel=y_label, color=:black, linewidth=1.25, label="Actual DMA inflow", size=(800, 350), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9, legend=:topleft)
+    @df actual_df plot!(:date_time, :dma_inflow, color=:black, linewidth=1.25, label=nothing)
+    @df predict_df plot!(:date_time, :dma_inflow, color=:red, linewidth=1.5, label="Predicted DMA inflow")
+    vspan!([actual_df[1, :date_time], actual_df[end, :date_time]], color=:gray, alpha=0.2, label="Prediction window")
 end
 
 
 
 
 
-
-
-
-
-
-
-
-
-# # run IAI algorithm (train)
-# begin
-
-#     # define test and train data
-#     X = df[:, 3:end]
-#     y = df[:, 2]
-
-#     (train_X, train_y), (test_X, test_y) = IAI.split_data(:regression, X, y, seed=12345)
-
-#     grid = IAI.GridSearch(
-#         IAI.OptimalTreeRegressor(
-#             random_seed=123,
-#         ),
-#         max_depth=1:5,
-#     )
-#     IAI.fit!(grid, train_X, train_y)
-#     IAI.get_learner(grid)
-
-# end
-
-# # run IAI algorithm (test)
-# begin
-
-#     predict_y = IAI.predict(grid, test_X)
-
-#     print(IAI.score(grid, train_X, train_y, criterion=:mse))
-#     print(IAI.score(grid, test_X, test_y, criterion=:mse))
-
-#     predict_y
-
-#     # # comparison plot
-#     time = 1:length(test_y)
-#     # plt = plot(time, test_y, label="Actual")
-#     # plt = plot!(time, predict_y, label="Predict")
-#     plt = plot(time[1:168], test_y[1:168], label="Actual")
-#     plt = plot!(time[1:168], predict_y[1:168], label="Predict")
-
-#     plt = xlabel!("Time")
-#     plt = ylabel!("Value")
-#     plt = title!("Time Series Plot")
-
-#     # Show the plot
-#     display(plt)
-
-#     # write results to csv file
-#     # results_df = DataFrame(Time=time, Series1=test_y, Series2=predict_y)
-#     # CSV.write(data_path * "results.csv", results_df)
-# end
