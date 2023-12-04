@@ -115,51 +115,51 @@ end
 
 
 
-# run IAI algorithm (train)
-begin
+# # run IAI algorithm (train)
+# begin
 
-    # define test and train data
-    X = df[:, 3:end]
-    y = df[:, 2]
+#     # define test and train data
+#     X = df[:, 3:end]
+#     y = df[:, 2]
 
-    (train_X, train_y), (test_X, test_y) = IAI.split_data(:regression, X, y, seed=12345)
+#     (train_X, train_y), (test_X, test_y) = IAI.split_data(:regression, X, y, seed=12345)
 
-    grid = IAI.GridSearch(
-        IAI.OptimalTreeRegressor(
-            random_seed=123,
-        ),
-        max_depth=1:5,
-    )
-    IAI.fit!(grid, train_X, train_y)
-    IAI.get_learner(grid)
+#     grid = IAI.GridSearch(
+#         IAI.OptimalTreeRegressor(
+#             random_seed=123,
+#         ),
+#         max_depth=1:5,
+#     )
+#     IAI.fit!(grid, train_X, train_y)
+#     IAI.get_learner(grid)
 
-end
+# end
 
-# run IAI algorithm (test)
-begin
+# # run IAI algorithm (test)
+# begin
 
-    predict_y = IAI.predict(grid, test_X)
+#     predict_y = IAI.predict(grid, test_X)
 
-    print(IAI.score(grid, train_X, train_y, criterion=:mse))
-    print(IAI.score(grid, test_X, test_y, criterion=:mse))
+#     print(IAI.score(grid, train_X, train_y, criterion=:mse))
+#     print(IAI.score(grid, test_X, test_y, criterion=:mse))
 
-    predict_y
+#     predict_y
 
-    # # comparison plot
-    time = 1:length(test_y)
-    # plt = plot(time, test_y, label="Actual")
-    # plt = plot!(time, predict_y, label="Predict")
-    plt = plot(time[1:168], test_y[1:168], label="Actual")
-    plt = plot!(time[1:168], predict_y[1:168], label="Predict")
+#     # # comparison plot
+#     time = 1:length(test_y)
+#     # plt = plot(time, test_y, label="Actual")
+#     # plt = plot!(time, predict_y, label="Predict")
+#     plt = plot(time[1:168], test_y[1:168], label="Actual")
+#     plt = plot!(time[1:168], predict_y[1:168], label="Predict")
 
-    plt = xlabel!("Time")
-    plt = ylabel!("Value")
-    plt = title!("Time Series Plot")
+#     plt = xlabel!("Time")
+#     plt = ylabel!("Value")
+#     plt = title!("Time Series Plot")
 
-    # Show the plot
-    display(plt)
+#     # Show the plot
+#     display(plt)
 
-    # write results to csv file
-    # results_df = DataFrame(Time=time, Series1=test_y, Series2=predict_y)
-    # CSV.write(data_path * "results.csv", results_df)
-end
+#     # write results to csv file
+#     # results_df = DataFrame(Time=time, Series1=test_y, Series2=predict_y)
+#     # CSV.write(data_path * "results.csv", results_df)
+# end
