@@ -69,3 +69,12 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
     
 end
 
+
+
+function impute_missing_data(inflow_df, weather_df)
+
+    lnr = IAI.ImputationLearner(method=:opt_knn, random_seed=1)
+    
+end
+
+

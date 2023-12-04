@@ -24,7 +24,7 @@ end
 # Plot time series data
 begin
 	data_type = "inflow" # "inflow", "weather"
-	col_names = [:dma_b] # [:dma_a]
+	col_names = [:dma_a] # [:dma_a]
 	y_label = "Inflow [L/s]"
 	start_date = DateTime("2022-01-01")
 	end_date = DateTime("2022-07-23")
@@ -94,7 +94,7 @@ end
 # Create master dataframe from imputed datasets
 begin
 	dma_id = :dma_a
-	lag_times = (1, 24)
+	lag_times = 168 # (1, 24)
 	master_df = make_dataframe(X_inflow, X_weather, lag_times, dma_id)
     master_df = dropmissing(master_df) # missing data created by lag feature values
 end
@@ -126,7 +126,7 @@ end
 begin
     grid = IAI.GridSearch(
         IAI.OptimalTreeRegressor(
-            random_seed=1,
+            random_seed=2,
         ),
         max_depth=1:10,
     )
