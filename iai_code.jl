@@ -1,61 +1,118 @@
 
-using CSV
-using IJulia
-using DataFrames
-using Dates
-using Plots
+########## PREAMBLE ##########
 
+# Load dependencies and functions located in project environment
 begin
-
-    # load data
-    data_path = "/home/bradw/workspace/water_demand_forecasting/data/"
-
-    inflow_df = CSV.read(data_path * "InflowData_1.csv", DataFrame)
-    inflow_df.date_time = Dates.DateTime.(inflow_df.date_time, "dd/mm/yyyy HH:MM")
-
-    weather_df = CSV.read(data_path * "WeatherData_1.csv", DataFrame)
-    weather_df.date_time = Dates.DateTime.(weather_df.date_time, "dd/mm/yyyy HH:MM")
-
-    # define holiday dates
-    holiday_dates = [Dates.Date("2021-01-01"), Dates.Date("2021-01-06"), Dates.Date("2021-04-04"), Dates.Date("2021-04-05"), Dates.Date("2021-04-25"), Dates.Date("2021-05-01"), Dates.Date("2021-06-02"), Dates.Date("2021-08-15"), Dates.Date("2021-11-01"), Dates.Date("2021-11-03"), Dates.Date("2021-12-08"), Dates.Date("2021-12-25"), Dates.Date("2021-12-26"), Dates.Date("2022-01-01"), Dates.Date("2022-01-06"), Dates.Date("2022-04-17"), Dates.Date("2021-04-18"), Dates.Date("2022-04-25"), Dates.Date("2022-05-01"), Dates.Date("2022-06-02"), Dates.Date("2022-08-15")]
-
+	using CSV
+	using DataFrames
+	using Dates
+	using Plots
+	using StatsPlots
+	using Statistics
+	using ColorSchemes
+	include("src/functions.jl")
 end
 
+# Load time series data from CSV files
 begin
-
-    # make new dataframe and add time features
-    df_time = DataFrame()
-
-    df_time.date_time = weather_df.date_time
-    df_time.quarter = ceil.(Int, Dates.month.(weather_df.date_time) / 3)
-    df_time.month = Dates.month.(weather_df.date_time)
-    df_time.week_of_month = Dates.dayofweekofmonth.(weather_df.date_time)
-    df_time.day_of_week = Dates.dayofweek.(weather_df.date_time)
-    df_time.time = Dates.value.(Dates.Hour.(weather_df.date_time))
-    df_time.is_holiday = [date in holiday_dates ? 1 : 0 for date in df_time.date_time]
-
-    # merge weather data
-    df_feat = DataFrame()
-    df_feat = unique(rightjoin(df_time, weather_df, on=:date_time))
-
-    # select DMA to analyze and merge feature and inflow dataframes
-    dma_id = "dma_a"
-    df = DataFrame()
-    df = leftjoin(inflow_df[!, ["date_time", dma_id]], df_feat, on=:date_time)
-
-    # data cleanup
-    delete!(df, [7274, 7277]) # delete duplicate data from autumn time change
-    rename!(df, Dict(dma_id => :dma_inflow))
-
-    df.prev_h_inflow = [fill(missing, 1); df.dma_inflow[1:end-1]]
-    df.prev_day_inflow = [fill(missing, 24); df.dma_inflow[1:end-24]]
-    df.prev_week_inflow = [fill(missing, 168); df.dma_inflow[1:end-168]]
-
-    dropmissing!(df)
-
-    df
-
+	data_path = "/home/bradw/workspace/water_demand_forecasting/data/"
+	inflow_df = read_data(data_path, "inflow")
+	weather_df = read_data(data_path, "weather")
 end
+
+# Plot time series data
+begin
+	data_type = "inflow" # "inflow", "weather"
+	col_names = [:dma_b] # [:dma_a]
+	y_label = "Inflow [L/s]"
+	start_date = DateTime("2022-01-01")
+	end_date = DateTime("2022-07-23")
+
+	if data_type == "inflow"
+		plot_df = filter(row -> start_date <= row.date_time <= end_date, inflow_df)
+	elseif data_type == "weather"
+		plot_df = filter(row -> start_date <= row.date_time <= end_date, 	weather_df)
+	end
+	
+	@df plot_df plot(:date_time, cols(col_names), ylabel=y_label, palette=:Set1_5, size=(700, 400))
+end
+
+
+
+########## IMPUTE MISSING DATA ##########
+
+"""
+    Preprocessing step to fill in missing values for `inflow_df` and `weather_df` datasets.
+    
+    We investigate four data imputation methods:
+    - mean
+    - k-nearest neighbors
+    - support vector machine
+    - classification and regression trees
+    These methods are implemented using Interpretable AI's `opt.impute` algorithm (insert citation here).
+
+    TODO: 
+    - compare data imputation methods from `impute.jl`
+    - develop tailored data imputation method from Bayesian first principles
+"""
+
+# Check percentage of data with missing values
+begin
+	check_df = inflow_df # inflow_df, weather_df
+	DataFrame(col=propertynames(check_df),
+	          missing_fraction=[mean(ismissing.(col)) for col in eachcol(check_df)])
+end
+
+# Data imputation using IAI algorithms
+begin
+    method = :opt_knn # :zero, :mean, :opt_svm, :opt_tree, :rand
+    imputer_inflow = IAI.ImputationLearner(method=method, random_seed=1)
+    imputer_weather = IAI.ImputationLearner(method=method, random_seed=1)
+
+    X_inflow = inflow_df[!, 2:end]
+    X_weather = weather_df[!, 2:end]
+
+    X_inflow = IAI.fit_transform!(imputer_inflow, X_inflow)
+    X_weather = IAI.fit_transform!(imputer_weather, X_weather)
+
+    insertcols!(X_inflow, 1, :date_time => inflow_df[!, :date_time])
+    insertcols!(X_weather, 1, :date_time => weather_df[!, :date_time])
+end
+
+# Export imputed datasets to CSV file
+begin
+    write_data(data_path, "inflow", X_inflow)
+    write_data(data_path, "weather", X_weather)
+end
+
+
+
+
+########## TRAIN OPTIMAL REGRESSION TREE ##########
+
+# Create master dataframe from imputed datasets
+begin
+	dma_id = :dma_a
+	lag_times = (1, 24, 168)
+	master_df = make_dataframe(X_inflow, X_weather, lag_times, dma_id)
+    dropmissing(master_df) # missing data created by lag feature values
+end
+
+# Split train and test datasets
+begin
+    
+end
+
+
+
+
+
+
+
+
+
+
+
 
 
 # run IAI algorithm (train)
