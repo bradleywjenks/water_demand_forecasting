@@ -24,7 +24,7 @@ end
 # Plot time series data
 begin
 	data_type = "inflow" # "inflow", "weather"
-	col_names = [:dma_g] # [:dma_a]
+	col_names = [:dma_b] # [:dma_a]
 	y_label = "Inflow [L/s]"
 	start_date = DateTime("2022-01-01")
 	end_date = DateTime("2022-07-23")
@@ -119,13 +119,14 @@ end
     Further exploration of parameter tuning is needed:
     - different performance criterion (default is :mse)
     - max tree depth
+    - random_seed
 
 """
 
 begin
     grid = IAI.GridSearch(
         IAI.OptimalTreeRegressor(
-            random_seed=123,
+            random_seed=1,
         ),
         max_depth=1:10,
     )
