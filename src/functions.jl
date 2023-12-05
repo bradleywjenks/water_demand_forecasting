@@ -15,6 +15,20 @@ function read_data(data_path::String, data_type::String)
 
     end
 
+    # delete duplicate data from autumn time change
+    n = 7274
+    df_delete = df[n:n+1, 2:end]
+    df_mean = mean.(eachcol(df_delete))
+    df[n, 2:end] .= df_mean
+    delete!(df, n+1)
+
+    # add data at spring time change
+    n = 10801
+    df_insert = df[n:n+1, 2:end]
+    mean_cols = mean.(eachcol(df_insert))
+    insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), mean_cols'), names(df))
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
     return df
 end
 
@@ -56,8 +70,7 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
     df = DataFrame()
     df = leftjoin(inflow_df[!, [:date_time, dma_id]], df_feat, on=:date_time)
 
-    # data cleanup
-    delete!(df, [7274, 7277]) # delete duplicate data from autumn time change
+    # rename dma inflow column
     rename!(df, Dict(dma_id => :dma_inflow))
 
     # lagged values
@@ -74,7 +87,7 @@ end
 function impute_missing_data(inflow_df, weather_df)
 
     lnr = IAI.ImputationLearner(method=:opt_knn, random_seed=1)
-    
+
 end
 
 
