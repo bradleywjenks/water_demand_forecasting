@@ -93,7 +93,7 @@ end
 
 # Create master dataframe from imputed datasets
 begin
-	dma_id = :dma_d
+	dma_id = :dma_b
 	lag_times = (1, 24, 168)
 	master_df = make_dataframe(X_inflow, X_weather, lag_times, dma_id)
     master_df = dropmissing(master_df) # missing data created by lag feature values
@@ -106,7 +106,7 @@ Here, we split train/test datasets for three different models: 1h, 24h, and 168h
 
 begin
 
-    n_week_train = 10
+    n_week_train = 1
     n_train = (1+n_week_train) * 168
 
     # 1h model datasets
@@ -184,6 +184,8 @@ begin
 
     # save decision tree plot
     plot_path = "/home/bradw/workspace/water_demand_forecasting/plots/"
+    IAI.write_html(plot_path * "opt_tree_1h.html", opt_tree_1h)
+    IAI.write_svg(plot_path * "opt_tree_1h.svg", opt_tree_1h)
     IAI.write_html(plot_path * "opt_tree_24h.html", opt_tree_24h)
     IAI.write_svg(plot_path * "opt_tree_24h.svg", opt_tree_24h)
     IAI.write_html(plot_path * "opt_tree_168h.html", opt_tree_168h)
