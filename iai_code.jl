@@ -24,9 +24,9 @@ end
 # Plot time series data
 begin
 	data_type = "inflow" # "inflow", "weather"
-	col_names = [:dma_c] # [:dma_a]
+	col_names = [:dma_b] # [:dma_a]
 	y_label = "Inflow [L/s]"
-	start_date = DateTime("2022-01-01")
+	start_date = DateTime("2021-01-01")
 	end_date = DateTime("2022-07-23")
 
 	if data_type == "inflow"
@@ -50,9 +50,9 @@ end
     - k-nearest neighbors
     - support vector machine
     - classification and regression trees
-    These methods are implemented using Interpretable AI's `opt.impute` algorithm (insert citation here).
+    These methods are implemented using Interpretable AI's `opt.impute` algorithm.
 
-    TODO: 
+    TO-DO: 
     - compare data imputation methods from `impute.jl`
     - develop tailored data imputation method from Bayesian first principles
 """
