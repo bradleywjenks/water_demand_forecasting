@@ -36,10 +36,10 @@ end
 function write_data(data_path::String, data_type::String, df)
 
     if data_type == "inflow"
-        CSV.write(data_path * "inflow_data_imputed.csv", df)
+        CSV.write(data_path * "inflow_imputed.csv", df)
 
     elseif data_type == "weather"
-        CSV.write(data_path * "weather_data_imputed.csv", df)
+        CSV.write(data_path * "weather_imputed.csv", df)
 
     end
 
@@ -68,7 +68,7 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 
     # select DMA to analyze and merge feature and inflow dataframes
     df = DataFrame()
-    df = leftjoin(inflow_df[!, [:date_time, dma_id]], df_feat, on=:date_time)
+    df = outerjoin(inflow_df[!, [:date_time, dma_id]], df_feat, on=:date_time)
 
     # rename dma inflow column
     rename!(df, Dict(dma_id => :dma_inflow))
