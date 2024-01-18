@@ -1,6 +1,121 @@
+# Load dependencies and functions located in project environment
 using CSV
 using DataFrames
 using Dates
+using Plots
+using StatsPlots
+using Statistics
+using ColorSchemes
+using Graphviz_jll
+using JLD2
+using Logging
+
+
+function main_script(dma_id, results_folder, test_start, test_end; impute_data=true, lag_values=[1, 24, 168], n_week_train=[1], display_output=true)
+
+    ### Step 1: load data and call data imputation method to fill in missing values
+    
+    data_path = pwd() * "/data/"
+    results_path = pwd() * "/" * results_folder * "/"
+
+    # Load time series data from CSV files
+	inflow_df = read_data(data_path, "inflow")
+	weather_df = read_data(data_path, "weather")
+
+    # Data imputation
+    X_inflow, X_weather = data_imputer(dma_id, results_path, impute_data, inflow_df, weather_df)
+
+
+    ### Step 2: train optimal regression tree models
+
+    # Create master dataframe from imputed datasets
+	master_df = make_dataframe(X_inflow, X_weather, lag_times, dma_id)
+    max_lag = maximum(lag_times)
+    master_df = master_df[max_lag+1:end, :] # Drop first n rows, where n corresponds to the maximum lag value
+            
+    # Find indices of test period start and end
+    test_start_idx = findfirst(row -> row.date_time == test_start, eachrow(master_df))
+    test_end_idx = findfirst(row -> row.date_time == test_end, eachrow(master_df))
+
+
+    # Loop over selected training windows and save results
+    results_df = DataFrame(n_week_train = Float64[], mae_first = Float64[], maxAE = Float64[], mae_last = Float64[], total = Float64[])
+    for n ∈ n_week_train
+
+        n_train = n * 168
+    
+        # Create train and test datasets
+        X_1h_train, y_1h_train, X_1h_test, y_1h_test = train_test_data(master_df, n_train, test_start_idx, test_end_idx, "1h")
+        X_24h_train, y_24h_train, X_24h_test, y_24h_test = train_test_data(master_df, n_train, test_start_idx, test_end_idx, "24h")
+        X_168h_train, y_168h_train, X_168h_test, y_168h_test = train_test_data(master_df, n_train, test_start_idx, test_end_idx, "168h")
+
+
+        # Run IAI optimal regression tress algorithm
+        cpu_time = @elapsed begin
+
+            # 1h model
+            grid_1h = IAI.GridSearch(
+                IAI.OptimalTreeRegressor(
+                    random_seed=2,
+                ),
+                max_depth=1:8,
+            )
+            IAI.fit!(grid_1h, X_1h_train, y_1h_train)
+
+            # 24h model
+            grid_24h = IAI.GridSearch(
+                IAI.OptimalTreeRegressor(
+                    random_seed=2,
+                ),
+                max_depth=1:8,
+            )
+            IAI.fit!(grid_24h, X_24h_train, y_24h_train)
+
+            # 168h model
+            grid_168h = IAI.GridSearch(
+                IAI.OptimalTreeRegressor(
+                    random_seed=2,
+                ),
+                max_depth=1:8,
+            )
+            IAI.fit!(grid_168h, X_168h_train, y_168h_train)
+
+        end
+
+        # Get tree learners
+        opt_tree_1h = IAI.get_learner(grid_1h)
+        opt_tree_24h = IAI.get_learner(grid_24h)
+        opt_tree_168h = IAI.get_learner(grid_168h)
+
+        # Save decision tree plots
+        plot_path = pwd() * "/" * results_folder * "/plots/"
+        IAI.write_svg(plot_path * string(dma_id) * "_opt_tree_1h_train_" * string(n) * ".svg", opt_tree_1h)
+        IAI.write_svg(plot_path * string(dma_id) * "_opt_tree_24h_train_" * string(n) * ".svg", opt_tree_24h)
+        IAI.write_svg(plot_path * string(dma_id) * "_opt_tree_168h_train_" * string(n) * ".svg", opt_tree_168h)
+
+        # Compute performance metrics and save best forecasted demand time series
+        save_results(results_path, results_df, grid_1h, grid_24h, grid_168h, X_1h_test, X_24h_test, X_168h_test, y_168h_test, n, dma_id)
+
+    end
+
+
+    # ### Step 3: results plotting
+
+    # Plot forecasted demands
+    plot_forecast(results_path, master_df, test_start_idx, test_end_idx, n_week_train, display_output, dma_id)
+
+    # Save and print results_df
+    CSV.write(results_path * "demand_forecast/" * string(dma_id) * "_results_metrics.csv", results_df)
+    if display_output
+        display(results_df)
+    end
+
+
+end
+    
+
+
+###################################################################################################################
 
 
 function read_data(data_path::String, data_type::String)
@@ -46,6 +161,66 @@ function write_data(data_path::String, data_type::String, df)
 end
 
 
+"""
+Preprocessing step to fill in missing values for `inflow_df` and `weather_df` datasets.
+
+We investigate four data imputation methods:
+- mean
+- k-nearest neighbors
+- support vector machine
+- classification and regression trees
+These methods are implemented using Interpretable AI's `opt.impute` algorithm.
+
+TO-DO: 
+- compare data imputation methods from `impute.jl`
+- develop tailored data imputation method from Bayesian first principles
+
+NOTE: THIS STEP SHOULD NOT BE COMPLETED FOR REPRODUCING RESULTS. INSTEAD, PLEASE SET `IMPUTE_DATA` TO FALSE 
+"""
+function data_imputer(dma_id, results_path, impute_data, inflow_df, weather_df)
+
+    if impute_data
+
+        # Check percentage of data with missing values
+        check_df = inflow_df # inflow_df, weather_df
+        DataFrame(col=propertynames(check_df),
+        missing_fraction=[mean(ismissing.(col)) for col in eachcol(check_df)])
+
+        # Data imputation using IAI algorithms
+        method = :opt_knn # :zero, :mean, :opt_svm, :opt_tree, :rand
+        imputer_inflow = IAI.ImputationLearner(method=method, random_seed=1)
+        imputer_weather = IAI.ImputationLearner(method=method, random_seed=1)
+
+        X_inflow = inflow_df[!, 2:end]
+        X_weather = weather_df[!, 2:end]
+
+        X_inflow = IAI.fit_transform!(imputer_inflow, X_inflow)
+        X_weather = IAI.fit_transform!(imputer_weather, X_weather)
+
+        insertcols!(X_inflow, 1, :date_time => inflow_df[!, :date_time])
+        insertcols!(X_weather, 1, :date_time => weather_df[!, :date_time])
+
+        # Export imputed datasets to CSV file
+        CSV.write(results_path * "imputed_data/inflow_imputed.csv", X_inflow)
+        CSV.write(results_path * "imputed_data/weather_imputed.csv", X_weather)
+
+    else
+
+        try
+            # Load imputed data from results folder
+            X_inflow = CSV.read(results_path * "imputed_data/inflow_imputed.csv", DataFrame)
+            X_weather = CSV.read(results_path * "imputed_data/weather_imputed.csv", DataFrame)
+        catch
+            @error "No data imputation csv files exist."
+        end
+
+    end
+
+
+    return X_inflow, X_weather
+end
+
+
 function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 
     # define holiday dates
@@ -83,11 +258,104 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 end
 
 
+"""
+Model Training:
+    We split train/test datasets for three different models: 1h, 24h, and 168h, and use the previous n weeks as the training window.
+    
+    TO-DO: 
+        - Further exploration on the duration (and time of year) of the training window.
 
-function impute_missing_data(inflow_df, weather_df)
+"""
+function train_test_data(master_df, n_train, test_start_idx, test_end_idx, model::String)
 
-    lnr = IAI.ImputationLearner(method=:opt_knn, random_seed=1)
+    if model == "1h"
+
+        X_train = master_df[test_start_idx-n_train:test_start_idx-1, 3:end]
+        y_train = master_df[test_start_idx-n_train:test_start_idx-1, 2]
+        X_test = master_df[test_start_idx:test_end_idx-lag_times[3]+1, 3:end]
+        y_test = master_df[test_start_idx:test_end_idx-lag_times[3]+1, 2]
+
+    elseif model == "24h"
+
+        X_train = master_df[test_start_idx-n_train:test_start_idx-1, [3:end-3; end-1:end]]
+        y_train = master_df[test_start_idx-n_train:test_start_idx-1, 2]
+        X_test = master_df[test_start_idx:test_start_idx+lag_times[2]-1, [3:end-3; end-1:end]]
+        y_test = master_df[test_start_idx:test_start_idx+lag_times[2]-1, 2]
+
+    elseif model == "168h"
+
+        X_train = master_df[test_start_idx-n_train:test_start_idx-1, [3:end-3; end]]
+        y_train = master_df[test_start_idx-n_train:test_start_idx-1, 2]
+        X_test = master_df[test_start_idx:test_end_idx, [3:end-3; end]]
+        y_test = master_df[test_start_idx:test_end_idx, 2]
+
+    end
+
+    return X_train, y_train, X_test, y_test
 
 end
 
 
+function save_results(results_path, results_df, grid_1h, grid_24h, grid_168h, X_1h_test, X_24h_test, X_168h_test, y_168h_test, n, dma_id)
+
+    # Get predicted y values
+    y_1h_predict = IAI.predict(grid_1h, X_1h_test)
+    y_24h_predict = IAI.predict(grid_24h, X_24h_test)
+    y_168h_predict = IAI.predict(grid_168h, X_168h_test)
+
+    # Create all predicted y value combinations
+    y_predict = vcat(y_1h_predict, y_24h_predict[2:end], y_168h_predict[25:end])
+
+    # Compute performance metrics
+    mae_first = []
+    maxAE = []
+    mae_last = []
+
+    try
+        mae_first = (1/24) * sum(abs.(y_168h_test[1:24] .- y_predict[1:24]))
+        maxAE = maximum(abs.(y_168h_test[1:24] .- y_predict[1:24]))
+        mae_last = (1/144) * sum(abs.(y_168h_test[25:168] .- y_predict[25:168]))
+    catch
+        println("Test data not provided. Cannot compute performance metrics.")
+        mae_first = []
+        maxAE = []
+        mae_last = []
+    end
+
+    # Save y_predict data to csv
+    CSV.write(results_path * "demand_forecast/" * string(dma_id) * "_inflow_predict_" * string(n) * ".csv", DataFrame(y_predict=y_predict))
+
+    # Save performance metrics to results dataframe
+    push!(results_df, [n, mae_first, maxAE, mae_last, mae_first+maxAE+mae_last])
+
+end
+
+
+
+function plot_forecast(results_path, master_df, test_start_idx, test_end_idx, n_week_train, display_output, dma_id)
+
+    predict_df = DataFrame(:date_time => master_df[test_start_idx:test_end_idx, :date_time])
+    actual_df = DataFrame(:date_time => master_df[test_start_idx:test_end_idx, :date_time], :actual_inflow => master_df[test_start_idx:test_end_idx, 2])
+    col_names = []
+
+    # Load y_predict data
+    for n ∈ n_week_train
+
+        column_name = Symbol("predict_$n")
+        append!(col_names, [column_name])
+        data = CSV.read(results_path * "demand_forecast/" * string(dma_id) * "_inflow_predict_" * string(n) * ".csv", DataFrame)
+        predict_df[!, column_name] = data[!, "y_predict"]
+
+    end
+
+    # Plotting code
+    plt = @df predict_df plot(:date_time, cols(col_names), palette=:seaborn_bright, linewidth=1.25)
+    plt = @df actual_df plot!(:date_time, :actual_inflow, color=:black, linewidth=1.5, label="actual", size=(500, 250), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9, legend=:outertopright, ylabel="Inflow [L/s]")
+
+    if display_output
+        display(plt)
+    end
+
+    savefig(results_path * "plots/" * string(dma_id) * "_inflow_predict.svg")
+
+end
