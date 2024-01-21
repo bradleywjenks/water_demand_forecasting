@@ -11,7 +11,7 @@ using JLD2
 using Logging
 
 
-function main_script(dma_id, results_folder, test_start, test_end; impute_data=true, lag_values=[1, 24, 168], n_week_train=[1], display_output=true)
+function main_script(dma_id, results_folder, test_start, test_end; impute_data=true, cp_tune="auto", cp_val=nothing, lag_values=[1, 24, 168], n_week_train=[1], display_output=true)
 
     ### Step 1: load data and call data imputation method to fill in missing values
     
@@ -53,32 +53,69 @@ function main_script(dma_id, results_folder, test_start, test_end; impute_data=t
         # Run IAI optimal regression tress algorithm
         cpu_time = @elapsed begin
 
-            # 1h model
-            grid_1h = IAI.GridSearch(
-                IAI.OptimalTreeRegressor(
-                    random_seed=2,
-                ),
-                max_depth=1:8,
-            )
-            IAI.fit!(grid_1h, X_1h_train, y_1h_train)
+            if cp_tune == "auto"
+                
+                # 1h model
+                grid_1h = IAI.GridSearch(
+                    IAI.OptimalTreeRegressor(
+                        random_seed=2,
+                    ),
+                    max_depth=1:8,
+                )
+                IAI.fit!(grid_1h, X_1h_train, y_1h_train)
 
-            # 24h model
-            grid_24h = IAI.GridSearch(
-                IAI.OptimalTreeRegressor(
-                    random_seed=2,
-                ),
-                max_depth=1:8,
-            )
-            IAI.fit!(grid_24h, X_24h_train, y_24h_train)
+                # 24h model
+                grid_24h = IAI.GridSearch(
+                    IAI.OptimalTreeRegressor(
+                        random_seed=2,
+                    ),
+                    max_depth=1:8,
+                )
+                IAI.fit!(grid_24h, X_24h_train, y_24h_train)
 
-            # 168h model
-            grid_168h = IAI.GridSearch(
-                IAI.OptimalTreeRegressor(
-                    random_seed=2,
-                ),
-                max_depth=1:8,
-            )
-            IAI.fit!(grid_168h, X_168h_train, y_168h_train)
+                # 168h model
+                grid_168h = IAI.GridSearch(
+                    IAI.OptimalTreeRegressor(
+                        random_seed=2,
+                    ),
+                    max_depth=1:8,
+                )
+                IAI.fit!(grid_168h, X_168h_train, y_168h_train)
+
+            elseif cp_tune == "manual"
+
+                # 1h model
+                grid_1h = IAI.GridSearch(
+                    IAI.OptimalTreeRegressor(
+                        random_seed=2,
+                    ),
+                    max_depth=1:8,
+                    cp=cp_val,
+                )
+                IAI.fit!(grid_1h, X_1h_train, y_1h_train)
+
+                # 24h model
+                grid_24h = IAI.GridSearch(
+                    IAI.OptimalTreeRegressor(
+                        random_seed=2,
+                    ),
+                    max_depth=1:8,
+                    cp=cp_val,
+                )
+                IAI.fit!(grid_24h, X_24h_train, y_24h_train)
+
+                # 168h model
+                grid_168h = IAI.GridSearch(
+                    IAI.OptimalTreeRegressor(
+                        random_seed=2,
+                        cp=cp_val,
+                    ),
+                    max_depth=1:8,
+                )
+                IAI.fit!(grid_168h, X_168h_train, y_168h_train)
+
+            end
+
 
         end
 

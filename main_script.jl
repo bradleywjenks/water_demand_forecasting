@@ -22,6 +22,10 @@ begin
     # Run data imputation?
     impute_data = false # run once
 
+    # Complexity Parameter
+    cp_tune = "auto" # "manual", "auto"
+    cp_val = 0
+
     # Lag values for feature selection
     lag_times = [1, 24, 168] # default values 
 
@@ -34,7 +38,7 @@ begin
 end
 
 # Run main_script function
-main_script(dma_id, results_folder, test_start, test_end; impute_data=impute_data, n_week_train=n_week_train, display_output=display_output)
+main_script(dma_id, results_folder, test_start, test_end; impute_data=impute_data, cp_tune=cp_tune, cp_val=cp_val, n_week_train=n_week_train, display_output=display_output)
 
 
 
