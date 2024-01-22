@@ -268,9 +268,11 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 
     df_time.date_time = weather_df.date_time
     df_time.quarter = ceil.(Int, Dates.month.(weather_df.date_time) / 3)
-    df_time.month = Dates.month.(weather_df.date_time)
-    df_time.week_of_month = Dates.dayofweekofmonth.(weather_df.date_time)
-    df_time.day_of_week = Dates.dayofweek.(weather_df.date_time)
+    # df_time.month = Dates.month.(weather_df.date_time)
+    # df_time.week_of_month = Dates.dayofweekofmonth.(weather_df.date_time)
+    # df_time.day_of_week = Dates.dayofweek.(weather_df.date_time)
+    day_of_week = Dates.dayofweek.(weather_df.date_time)
+    df_time.day_type = [day in collect(1:5) ? 1 : 0 for day in day_of_week]
     df_time.time = Dates.value.(Dates.Hour.(weather_df.date_time))
     df_time.is_holiday = [date in holiday_dates ? 1 : 0 for date in df_time.date_time]
 

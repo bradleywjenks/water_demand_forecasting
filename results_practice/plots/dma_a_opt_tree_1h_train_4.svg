@@ -66,7 +66,7 @@
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
-<text text-anchor="start" x="197" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 15.76</text>
+<text text-anchor="start" x="197" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 13.06</text>
 <text text-anchor="start" x="158" y="-363.3" font-family="Arial" font-size="14.00"> &#160;</text>
 <path fill="#ebebeb" stroke="transparent" d="M180,-335C180,-335 264,-335 264,-335 270,-335 276,-341 276,-347 276,-347 276,-387 276,-387 276,-393 270,-399 264,-399 264,-399 180,-399 180,-399 174,-399 168,-393 168,-387 168,-387 168,-347 168,-347 168,-341 174,-335 180,-335"/>
 <text text-anchor="start" x="169" y="-396.4" font-family="Arial" font-size="2.00"> </text>
@@ -87,7 +87,7 @@
 <!-- 8 -->
 <g id="node5" class="node">
 <title>8</title>
-<text text-anchor="start" x="430.5" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 15.76</text>
+<text text-anchor="start" x="430.5" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 13.06</text>
 <text text-anchor="start" x="391" y="-363.3" font-family="Arial" font-size="14.00"> &#160;</text>
 <path fill="#ebebeb" stroke="transparent" d="M413,-335C413,-335 497,-335 497,-335 503,-335 509,-341 509,-347 509,-347 509,-387 509,-387 509,-393 503,-399 497,-399 497,-399 413,-399 413,-399 407,-399 401,-393 401,-387 401,-387 401,-347 401,-347 401,-341 407,-335 413,-335"/>
 <text text-anchor="start" x="402" y="-396.4" font-family="Arial" font-size="2.00"> </text>
