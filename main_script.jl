@@ -14,7 +14,7 @@ begin
         test_end = DateTime("2022-07-24T23:00:00")
 
     elseif results_folder == "results_submission1"
-        test_start = DateTime("2022-07-24T00:00:00")
+        test_start = DateTime("2022-07-25T00:00:00")
         test_end = DateTime("2022-07-31T23:00:00")
 
     end
@@ -24,10 +24,10 @@ begin
 
     # Complexity Parameter
     cp_tune = "auto" # "manual", "auto"
-    cp_val = 0
+    cp_val = 0.001
 
     # Lag values for feature selection
-    lag_times = [1, 24, 168] # default values 
+    lag_times = [168, 24, 1] # discrete lag values
 
     # Training windows (no. of weeks)
     n_week_train = [52, 26, 4, 1]
@@ -38,8 +38,28 @@ begin
 end
 
 # Run main_script function
-main_script(dma_id, results_folder, test_start, test_end; impute_data=impute_data, cp_tune=cp_tune, cp_val=cp_val, n_week_train=n_week_train, display_output=display_output)
+main_script(dma_id, results_folder, test_start, test_end; impute_data=impute_data, cp_tune=cp_tune, cp_val=cp_val, n_week_train=n_week_train, display_output=display_output, lag_times=lag_times)
 
+
+
+
+
+########## Time series plotting #########
+
+# Parameter selection
+begin
+
+    # Start and end dates
+    start_date = DateTime("2022-06-01")
+    end_date = DateTime("2022-07-31")
+
+    # data
+    data_type = "inflow" # "weather"
+    data_name = :dma_j # dma IDs or weather feature :air_temp
+
+end
+
+plot_time_series(results_folder, data_type, data_name, start_date, end_date)
 
 
 

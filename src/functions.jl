@@ -11,7 +11,7 @@ using JLD2
 using Logging
 
 
-function main_script(dma_id, results_folder, test_start, test_end; impute_data=true, cp_tune="auto", cp_val=nothing, lag_values=[1, 24, 168], n_week_train=[1], display_output=true)
+function main_script(dma_id, results_folder, test_start, test_end; impute_data=true, cp_tune="auto", cp_val=nothing, lag_times=[1], n_week_train=[1], display_output=true)
 
     ### Step 1: load data and call data imputation method to fill in missing values
     
@@ -108,9 +108,9 @@ function main_script(dma_id, results_folder, test_start, test_end; impute_data=t
                 grid_168h = IAI.GridSearch(
                     IAI.OptimalTreeRegressor(
                         random_seed=2,
-                        cp=cp_val,
                     ),
                     max_depth=1:8,
+                    cp=cp_val,
                 )
                 IAI.fit!(grid_168h, X_168h_train, y_168h_train)
 
@@ -268,13 +268,13 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 
     df_time.date_time = weather_df.date_time
     df_time.quarter = ceil.(Int, Dates.month.(weather_df.date_time) / 3)
-    # df_time.month = Dates.month.(weather_df.date_time)
+    df_time.month = Dates.month.(weather_df.date_time)
     # df_time.week_of_month = Dates.dayofweekofmonth.(weather_df.date_time)
-    # df_time.day_of_week = Dates.dayofweek.(weather_df.date_time)
+    df_time.day_of_week = Dates.dayofweek.(weather_df.date_time)
     day_of_week = Dates.dayofweek.(weather_df.date_time)
-    df_time.day_type = [day in collect(1:5) ? 1 : 0 for day in day_of_week]
+    df_time.day_type = [(day ∈ 1:5) && !(date in holiday_dates) ? 1 : 0 for (day, date) in zip(day_of_week, df_time.date_time)]
     df_time.time = Dates.value.(Dates.Hour.(weather_df.date_time))
-    df_time.is_holiday = [date in holiday_dates ? 1 : 0 for date in df_time.date_time]
+    # df_time.is_holiday = [date in holiday_dates ? 1 : 0 for date in df_time.date_time]
 
     # merge weather data
     df_feat = DataFrame()
@@ -289,7 +289,7 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 
     # lagged values
     for (i, v) ∈ enumerate(lag_times)
-        df[!, Symbol("prev_", v, "_inflow")] = [fill(missing, v); df.dma_inflow[1:end-v]]
+            df[!, Symbol("prev_", v, "_inflow")] = [fill(missing, v); df.dma_inflow[1:end - v]]
     end
 
     return df
@@ -299,7 +299,7 @@ end
 
 """
 Model Training:
-    We split train/test datasets for three different models: 1h, 24h, and 168h, and use the previous n weeks as the training window.
+    We split train/test datasets for three different models: 24h, and 168h, and use the previous n weeks as the training window.
     
     TO-DO: 
         - Further exploration on the duration (and time of year) of the training window.
@@ -311,21 +311,21 @@ function train_test_data(master_df, n_train, test_start_idx, test_end_idx, model
 
         X_train = master_df[test_start_idx-n_train:test_start_idx-1, 3:end]
         y_train = master_df[test_start_idx-n_train:test_start_idx-1, 2]
-        X_test = master_df[test_start_idx:test_end_idx-lag_times[3]+1, 3:end]
-        y_test = master_df[test_start_idx:test_end_idx-lag_times[3]+1, 2]
+        X_test = master_df[test_start_idx:test_start_idx, 3:end]
+        y_test = master_df[test_start_idx:test_start_idx, 2]
 
     elseif model == "24h"
 
-        X_train = master_df[test_start_idx-n_train:test_start_idx-1, [3:end-3; end-1:end]]
+        X_train = master_df[test_start_idx-n_train:test_start_idx-1, 3:end-1]
         y_train = master_df[test_start_idx-n_train:test_start_idx-1, 2]
-        X_test = master_df[test_start_idx:test_start_idx+lag_times[2]-1, [3:end-3; end-1:end]]
-        y_test = master_df[test_start_idx:test_start_idx+lag_times[2]-1, 2]
+        X_test = master_df[test_start_idx:test_start_idx+23, 3:end-1]
+        y_test = master_df[test_start_idx:test_start_idx+23, 2]
 
     elseif model == "168h"
 
-        X_train = master_df[test_start_idx-n_train:test_start_idx-1, [3:end-3; end]]
+        X_train = master_df[test_start_idx-n_train:test_start_idx-1, 3:end-2]
         y_train = master_df[test_start_idx-n_train:test_start_idx-1, 2]
-        X_test = master_df[test_start_idx:test_end_idx, [3:end-3; end]]
+        X_test = master_df[test_start_idx:test_end_idx, 3:end-2]
         y_test = master_df[test_start_idx:test_end_idx, 2]
 
     end
@@ -338,6 +338,10 @@ end
 function save_results(results_path, results_df, grid_1h, grid_24h, grid_168h, X_1h_test, X_24h_test, X_168h_test, y_168h_test, n, dma_id)
 
     # Get predicted y values
+    y_1h_predict = []
+    y_24h_predict = []
+    y_168h_predict = []
+
     y_1h_predict = IAI.predict(grid_1h, X_1h_test)
     y_24h_predict = IAI.predict(grid_24h, X_24h_test)
     y_168h_predict = IAI.predict(grid_168h, X_168h_test)
@@ -389,12 +393,35 @@ function plot_forecast(results_path, master_df, test_start_idx, test_end_idx, n_
 
     # Plotting code
     plt = @df predict_df plot(:date_time, cols(col_names), palette=:seaborn_bright, linewidth=1.25)
-    plt = @df actual_df plot!(:date_time, :actual_inflow, color=:black, linewidth=1.5, label="actual", size=(500, 250), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9, legend=:outertopright, ylabel="Inflow [L/s]")
+    plt = @df actual_df plot!(:date_time, :actual_inflow, color=:black, linewidth=1.5, label="actual", size=(1000, 400), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9, legend=:outertopright, ylabel="Inflow [L/s]")
 
     if display_output
         display(plt)
     end
 
     savefig(results_path * "plots/" * string(dma_id) * "_inflow_predict.svg")
+
+end
+
+
+function plot_time_series(results_folder, data_type, data_name, start_date, end_date)
+
+    results_path = pwd() * "/" * results_folder * "/" 
+
+    inflow_df = CSV.read(results_path * "imputed_data/inflow_imputed.csv", DataFrame)
+    weather_df = CSV.read(results_path * "imputed_data/weather_imputed.csv", DataFrame)
+
+    if data_type == "inflow"
+        plot_df = filter(row -> start_date <= row.date_time <= end_date, inflow_df)
+        y_label = "Inflow [L/s]"
+        @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, palette=:seaborn_bright, size=(1000, 400), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
+
+    elseif data_type == "weather"
+        plot_df = filter(row -> start_date <= row.date_time <= end_date, weather_df)
+        y_label = data_name
+        @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, palette=:seaborn_bright, size=(1000, 400), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
+
+    end
+
 
 end
