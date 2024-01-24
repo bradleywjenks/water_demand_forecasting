@@ -358,6 +358,9 @@ function save_results(results_path, results_df, grid_1h, grid_24h, grid_168h, X_
         mae_first = (1/24) * sum(abs.(y_168h_test[1:24] .- y_predict[1:24]))
         maxAE = maximum(abs.(y_168h_test[1:24] .- y_predict[1:24]))
         mae_last = (1/144) * sum(abs.(y_168h_test[25:168] .- y_predict[25:168]))
+        
+        # Save performance metrics to results dataframe
+        push!(results_df, [n, mae_first, maxAE, mae_last, mae_first+maxAE+mae_last])
     catch
         println("Test data not provided. Cannot compute performance metrics.")
         mae_first = []
@@ -367,9 +370,6 @@ function save_results(results_path, results_df, grid_1h, grid_24h, grid_168h, X_
 
     # Save y_predict data to csv
     CSV.write(results_path * "demand_forecast/" * string(dma_id) * "_inflow_predict_" * string(n) * ".csv", DataFrame(y_predict=y_predict))
-
-    # Save performance metrics to results dataframe
-    push!(results_df, [n, mae_first, maxAE, mae_last, mae_first+maxAE+mae_last])
 
 end
 
