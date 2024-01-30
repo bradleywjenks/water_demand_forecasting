@@ -19,3 +19,5 @@ Once the Interpretable AI modules are successfully installed, run `main_script` 
 - `lag_times` assigned as a vector of discrete lag values for model features
 - `n_week_train` assigned as a vector of training windows to test
 - `display_output` set to true if plotting code is activated and false otherwise 
+
+Note that `main_script` generates DMA inflow predictions for each `n_week_train` training window size. We then apply engineering judgement to select the best model for submission.
