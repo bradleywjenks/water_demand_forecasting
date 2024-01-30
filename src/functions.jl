@@ -287,9 +287,13 @@ function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
     # rename dma inflow column
     rename!(df, Dict(dma_id => :dma_inflow))
 
+    # # minimum night flow
+    # mnf = 24
+    # df[!, Symbol("min_", mnf, "h_inflow")] = [fill(missing, mnf); [minimum(df.dma_inflow[j-mnf:j]) for j ∈ mnf+1:length(df.dma_inflow)]]
+
     # lagged values
     for (i, v) ∈ enumerate(lag_times)
-            df[!, Symbol("prev_", v, "_inflow")] = [fill(missing, v); df.dma_inflow[1:end - v]]
+            df[!, Symbol("prev_", v, "h_inflow")] = [fill(missing, v); df.dma_inflow[1:end - v]]
     end
 
     return df
@@ -306,6 +310,10 @@ Model Training:
 
 """
 function train_test_data(master_df, n_train, test_start_idx, test_end_idx, model::String)
+
+    # set mnf values for test dataset = last time step in train dataset
+    last_mnf = master_df[test_start_idx-1, "min_24h_inflow"] 
+    master_df[test_start_idx:test_end_idx, "min_24h_inflow"] .= last_mnf
 
     if model == "1h"
 
@@ -358,7 +366,7 @@ function save_results(results_path, results_df, grid_1h, grid_24h, grid_168h, X_
         mae_first = (1/24) * sum(abs.(y_168h_test[1:24] .- y_predict[1:24]))
         maxAE = maximum(abs.(y_168h_test[1:24] .- y_predict[1:24]))
         mae_last = (1/144) * sum(abs.(y_168h_test[25:168] .- y_predict[25:168]))
-        
+
         # Save performance metrics to results dataframe
         push!(results_df, [n, mae_first, maxAE, mae_last, mae_first+maxAE+mae_last])
     catch

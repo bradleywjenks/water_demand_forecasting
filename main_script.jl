@@ -5,8 +5,8 @@ include("src/functions.jl")
 # Parameter selection for demand forecasting model
 begin
 
-    results_folder = "results_submission1" # "results_practice", "results_submission1"
-    dma_id = :dma_j # DMA IDs a to j
+    results_folder = "results_practice" # "results_practice", "results_submission1"
+    dma_id = :dma_b # DMA IDs a to j
 
     # modify datetimes accordingly
     if results_folder == "results_practice"
@@ -30,7 +30,7 @@ begin
     lag_times = [168, 24, 1] # discrete lag values
 
     # Training windows (no. of weeks)
-    n_week_train = [80, 52, 26, 4, 1]
+    n_week_train = [52, 26, 4, 1]
 
     # Display results plotting?
     display_output = true # default argument is true

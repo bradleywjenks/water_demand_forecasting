@@ -21,7 +21,7 @@
 <text text-anchor="start" x="143.5" y="-338.8" font-family="Arial" font-size="9.00"> </text>
 <path fill="none" stroke="#333333" d="M107,-335C107,-335 183,-335 183,-335 189,-335 195,-341 195,-347 195,-347 195,-387 195,-387 195,-393 189,-399 183,-399 183,-399 107,-399 107,-399 101,-399 95,-393 95,-387 95,-387 95,-347 95,-347 95,-341 101,-335 107,-335"/>
 <text text-anchor="start" x="197" y="-363.3" font-family="Arial" font-size="14.00"> &#160;&#160;&#160;</text>
-<text text-anchor="start" x="92" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168_inflow</text>
+<text text-anchor="start" x="87.5" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168h_inflow</text>
 </g>
 <!-- 2 -->
 <g id="node2" class="node">
