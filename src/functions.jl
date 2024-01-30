@@ -311,9 +311,9 @@ Model Training:
 """
 function train_test_data(master_df, n_train, test_start_idx, test_end_idx, model::String)
 
-    # set mnf values for test dataset = last time step in train dataset
-    last_mnf = master_df[test_start_idx-1, "min_24h_inflow"] 
-    master_df[test_start_idx:test_end_idx, "min_24h_inflow"] .= last_mnf
+    # # set mnf values for test dataset = last time step in train dataset
+    # last_mnf = master_df[test_start_idx-1, "min_24h_inflow"] 
+    # master_df[test_start_idx:test_end_idx, "min_24h_inflow"] .= last_mnf
 
     if model == "1h"
 

@@ -11,61 +11,61 @@
 <!-- 1 -->
 <g id="node1" class="node">
 <title>1</title>
-<text text-anchor="start" x="577" y="-561.8" font-family="Arial" font-weight="bold" font-size="14.00"> </text>
-<text text-anchor="start" x="511" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
-<path fill="#ebebeb" stroke="transparent" d="M537,-489C537,-489 621,-489 621,-489 627,-489 633,-495 633,-501 633,-501 633,-541 633,-541 633,-547 627,-553 621,-553 621,-553 537,-553 537,-553 531,-553 525,-547 525,-541 525,-541 525,-501 525,-501 525,-495 531,-489 537,-489"/>
-<text text-anchor="start" x="526" y="-550.4" font-family="Arial" font-size="2.00"> </text>
-<text text-anchor="start" x="526" y="-544.4" font-family="Arial" font-size="7.00"> &#160;1</text>
-<text text-anchor="start" x="540" y="-527.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 5.399</text>
-<text text-anchor="start" x="555.5" y="-510.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 672</text>
-<text text-anchor="start" x="577.5" y="-492.8" font-family="Arial" font-size="9.00"> </text>
-<path fill="none" stroke="#333333" d="M537,-489C537,-489 621,-489 621,-489 627,-489 633,-495 633,-501 633,-501 633,-541 633,-541 633,-547 627,-553 621,-553 621,-553 537,-553 537,-553 531,-553 525,-547 525,-541 525,-541 525,-501 525,-501 525,-495 531,-489 537,-489"/>
-<text text-anchor="start" x="635" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
-<text text-anchor="start" x="526" y="-474.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168_inflow</text>
+<text text-anchor="start" x="580" y="-561.8" font-family="Arial" font-weight="bold" font-size="14.00"> </text>
+<text text-anchor="start" x="510" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;&#160;</text>
+<path fill="#ebebeb" stroke="transparent" d="M540,-489C540,-489 624,-489 624,-489 630,-489 636,-495 636,-501 636,-501 636,-541 636,-541 636,-547 630,-553 624,-553 624,-553 540,-553 540,-553 534,-553 528,-547 528,-541 528,-541 528,-501 528,-501 528,-495 534,-489 540,-489"/>
+<text text-anchor="start" x="529" y="-550.4" font-family="Arial" font-size="2.00"> </text>
+<text text-anchor="start" x="529" y="-544.4" font-family="Arial" font-size="7.00"> &#160;1</text>
+<text text-anchor="start" x="543" y="-527.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 5.399</text>
+<text text-anchor="start" x="558.5" y="-510.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 672</text>
+<text text-anchor="start" x="580.5" y="-492.8" font-family="Arial" font-size="9.00"> </text>
+<path fill="none" stroke="#333333" d="M540,-489C540,-489 624,-489 624,-489 630,-489 636,-495 636,-501 636,-501 636,-541 636,-541 636,-547 630,-553 624,-553 624,-553 540,-553 540,-553 534,-553 528,-547 528,-541 528,-541 528,-501 528,-501 528,-495 534,-489 540,-489"/>
+<text text-anchor="start" x="638" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;&#160;</text>
+<text text-anchor="start" x="524.5" y="-474.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168h_inflow</text>
 </g>
 <!-- 2 -->
 <g id="node2" class="node">
 <title>2</title>
-<text text-anchor="start" x="475" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 6.215</text>
-<path fill="#ebebeb" stroke="transparent" d="M458,-335C458,-335 542,-335 542,-335 548,-335 554,-341 554,-347 554,-347 554,-387 554,-387 554,-393 548,-399 542,-399 542,-399 458,-399 458,-399 452,-399 446,-393 446,-387 446,-387 446,-347 446,-347 446,-341 452,-335 458,-335"/>
-<text text-anchor="start" x="447" y="-396.4" font-family="Arial" font-size="2.00"> </text>
-<text text-anchor="start" x="447" y="-390.4" font-family="Arial" font-size="7.00"> &#160;2</text>
-<text text-anchor="start" x="461" y="-373.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 4.698</text>
-<text text-anchor="start" x="476.5" y="-356.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 461</text>
-<text text-anchor="start" x="498.5" y="-338.8" font-family="Arial" font-size="9.00"> </text>
-<path fill="none" stroke="#333333" d="M458,-335C458,-335 542,-335 542,-335 548,-335 554,-341 554,-347 554,-347 554,-387 554,-387 554,-393 548,-399 542,-399 542,-399 458,-399 458,-399 452,-399 446,-393 446,-387 446,-387 446,-347 446,-347 446,-341 452,-335 458,-335"/>
-<text text-anchor="start" x="485.5" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">time</text>
+<text text-anchor="start" x="476" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 6.215</text>
+<path fill="#ebebeb" stroke="transparent" d="M459,-335C459,-335 543,-335 543,-335 549,-335 555,-341 555,-347 555,-347 555,-387 555,-387 555,-393 549,-399 543,-399 543,-399 459,-399 459,-399 453,-399 447,-393 447,-387 447,-387 447,-347 447,-347 447,-341 453,-335 459,-335"/>
+<text text-anchor="start" x="448" y="-396.4" font-family="Arial" font-size="2.00"> </text>
+<text text-anchor="start" x="448" y="-390.4" font-family="Arial" font-size="7.00"> &#160;2</text>
+<text text-anchor="start" x="462" y="-373.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 4.698</text>
+<text text-anchor="start" x="477.5" y="-356.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 461</text>
+<text text-anchor="start" x="499.5" y="-338.8" font-family="Arial" font-size="9.00"> </text>
+<path fill="none" stroke="#333333" d="M459,-335C459,-335 543,-335 543,-335 549,-335 555,-341 555,-347 555,-347 555,-387 555,-387 555,-393 549,-399 543,-399 543,-399 459,-399 459,-399 453,-399 447,-393 447,-387 447,-387 447,-347 447,-347 447,-341 453,-335 459,-335"/>
+<text text-anchor="start" x="486.5" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">time</text>
 </g>
 <!-- 1&#45;&gt;2 -->
 <g id="edge1" class="edge">
 <title>1&#45;&gt;2</title>
-<path fill="none" stroke="#888888" d="M548.68,-461.67C544.19,-453.03 539.54,-444.07 534.96,-435.27"/>
-<polygon fill="#888888" stroke="#888888" points="537.95,-433.44 530.24,-426.18 531.74,-436.66 537.95,-433.44"/>
+<path fill="none" stroke="#888888" d="M550.91,-461.67C546.31,-453.03 541.54,-444.07 536.85,-435.27"/>
+<polygon fill="#888888" stroke="#888888" points="539.79,-433.36 532,-426.18 533.62,-436.65 539.79,-433.36"/>
 </g>
 <!-- 9 -->
 <g id="node3" class="node">
 <title>9</title>
-<text text-anchor="start" x="705.5" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 6.215</text>
-<path fill="#ebebeb" stroke="transparent" d="M692,-335C692,-335 768,-335 768,-335 774,-335 780,-341 780,-347 780,-347 780,-387 780,-387 780,-393 774,-399 768,-399 768,-399 692,-399 692,-399 686,-399 680,-393 680,-387 680,-387 680,-347 680,-347 680,-341 686,-335 692,-335"/>
-<text text-anchor="start" x="681" y="-396.4" font-family="Arial" font-size="2.00"> </text>
-<text text-anchor="start" x="681" y="-390.4" font-family="Arial" font-size="7.00"> &#160;9</text>
-<text text-anchor="start" x="695" y="-373.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 6.93</text>
-<text text-anchor="start" x="707" y="-356.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 211</text>
-<text text-anchor="start" x="728.5" y="-338.8" font-family="Arial" font-size="9.00"> </text>
-<path fill="none" stroke="#333333" d="M692,-335C692,-335 768,-335 768,-335 774,-335 780,-341 780,-347 780,-347 780,-387 780,-387 780,-393 774,-399 768,-399 768,-399 692,-399 692,-399 686,-399 680,-393 680,-387 680,-387 680,-347 680,-347 680,-341 686,-335 692,-335"/>
-<text text-anchor="start" x="701" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">air_temp</text>
+<text text-anchor="start" x="704.5" y="-407.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 6.215</text>
+<path fill="#ebebeb" stroke="transparent" d="M691,-335C691,-335 767,-335 767,-335 773,-335 779,-341 779,-347 779,-347 779,-387 779,-387 779,-393 773,-399 767,-399 767,-399 691,-399 691,-399 685,-399 679,-393 679,-387 679,-387 679,-347 679,-347 679,-341 685,-335 691,-335"/>
+<text text-anchor="start" x="680" y="-396.4" font-family="Arial" font-size="2.00"> </text>
+<text text-anchor="start" x="680" y="-390.4" font-family="Arial" font-size="7.00"> &#160;9</text>
+<text text-anchor="start" x="694" y="-373.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 6.93</text>
+<text text-anchor="start" x="706" y="-356.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 211</text>
+<text text-anchor="start" x="727.5" y="-338.8" font-family="Arial" font-size="9.00"> </text>
+<path fill="none" stroke="#333333" d="M691,-335C691,-335 767,-335 767,-335 773,-335 779,-341 779,-347 779,-347 779,-387 779,-387 779,-393 773,-399 767,-399 767,-399 691,-399 691,-399 685,-399 679,-393 679,-387 679,-387 679,-347 679,-347 679,-341 685,-335 691,-335"/>
+<text text-anchor="start" x="700" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">air_temp</text>
 </g>
 <!-- 1&#45;&gt;9 -->
 <g id="edge2" class="edge">
 <title>1&#45;&gt;9</title>
-<path fill="none" stroke="#888888" d="M636.95,-461.67C646.16,-452.39 655.74,-442.75 665.1,-433.33"/>
-<polygon fill="#888888" stroke="#888888" points="667.64,-435.74 672.21,-426.18 662.68,-430.8 667.64,-435.74"/>
+<path fill="none" stroke="#888888" d="M638.41,-461.67C647.29,-452.49 656.53,-442.94 665.55,-433.6"/>
+<polygon fill="#888888" stroke="#888888" points="668.3,-435.8 672.74,-426.18 663.27,-430.93 668.3,-435.8"/>
 </g>
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
 <text text-anchor="start" x="207.5" y="-253.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 5.5</text>
-<text text-anchor="start" x="161" y="-209.3" font-family="Arial" font-size="14.00"> &#160;</text>
+<text text-anchor="start" x="157" y="-209.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
 <path fill="#ebebeb" stroke="transparent" d="M183,-181C183,-181 267,-181 267,-181 273,-181 279,-187 279,-193 279,-193 279,-233 279,-233 279,-239 273,-245 267,-245 267,-245 183,-245 183,-245 177,-245 171,-239 171,-233 171,-233 171,-193 171,-193 171,-187 177,-181 183,-181"/>
 <text text-anchor="start" x="172" y="-242.4" font-family="Arial" font-size="2.00"> </text>
 <text text-anchor="start" x="172" y="-236.4" font-family="Arial" font-size="7.00"> &#160;3</text>
@@ -73,60 +73,60 @@
 <text text-anchor="start" x="201.5" y="-202.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 167</text>
 <text text-anchor="start" x="223.5" y="-184.8" font-family="Arial" font-size="9.00"> </text>
 <path fill="none" stroke="#333333" d="M183,-181C183,-181 267,-181 267,-181 273,-181 279,-187 279,-193 279,-193 279,-233 279,-233 279,-239 273,-245 267,-245 267,-245 183,-245 183,-245 177,-245 171,-239 171,-233 171,-233 171,-193 171,-193 171,-187 177,-181 183,-181"/>
-<text text-anchor="start" x="281" y="-209.3" font-family="Arial" font-size="14.00"> &#160;</text>
-<text text-anchor="start" x="175.5" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_24_inflow</text>
+<text text-anchor="start" x="281" y="-209.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
+<text text-anchor="start" x="171.5" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_24h_inflow</text>
 </g>
 <!-- 2&#45;&gt;3 -->
 <g id="edge3" class="edge">
 <title>2&#45;&gt;3</title>
-<path fill="none" stroke="#888888" d="M433.78,-329.4C396.1,-308.57 348.56,-282.29 308.36,-260.07"/>
-<polygon fill="#888888" stroke="#888888" points="309.81,-256.88 299.37,-255.11 306.43,-263.01 309.81,-256.88"/>
+<path fill="none" stroke="#888888" d="M434.89,-329.59C398.05,-309.3 351.72,-283.79 311.97,-261.89"/>
+<polygon fill="#888888" stroke="#888888" points="313.51,-258.75 303.07,-256.99 310.14,-264.88 313.51,-258.75"/>
 </g>
 <!-- 6 -->
 <g id="node5" class="node">
 <title>6</title>
-<text text-anchor="start" x="483" y="-253.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 5.5</text>
-<text text-anchor="start" x="436" y="-209.3" font-family="Arial" font-size="14.00"> &#160;</text>
-<path fill="#ebebeb" stroke="transparent" d="M458,-181C458,-181 542,-181 542,-181 548,-181 554,-187 554,-193 554,-193 554,-233 554,-233 554,-239 548,-245 542,-245 542,-245 458,-245 458,-245 452,-245 446,-239 446,-233 446,-233 446,-193 446,-193 446,-187 452,-181 458,-181"/>
-<text text-anchor="start" x="447" y="-242.4" font-family="Arial" font-size="2.00"> </text>
-<text text-anchor="start" x="447" y="-236.4" font-family="Arial" font-size="7.00"> &#160;6</text>
-<text text-anchor="start" x="461" y="-219.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 5.401</text>
-<text text-anchor="start" x="476.5" y="-202.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 294</text>
-<text text-anchor="start" x="498.5" y="-184.8" font-family="Arial" font-size="9.00"> </text>
-<path fill="none" stroke="#333333" d="M458,-181C458,-181 542,-181 542,-181 548,-181 554,-187 554,-193 554,-193 554,-233 554,-233 554,-239 548,-245 542,-245 542,-245 458,-245 458,-245 452,-245 446,-239 446,-233 446,-233 446,-193 446,-193 446,-187 452,-181 458,-181"/>
-<text text-anchor="start" x="556" y="-209.3" font-family="Arial" font-size="14.00"> &#160;</text>
-<text text-anchor="start" x="450.5" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_24_inflow</text>
+<text text-anchor="start" x="484" y="-253.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 5.5</text>
+<text text-anchor="start" x="433" y="-209.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
+<path fill="#ebebeb" stroke="transparent" d="M459,-181C459,-181 543,-181 543,-181 549,-181 555,-187 555,-193 555,-193 555,-233 555,-233 555,-239 549,-245 543,-245 543,-245 459,-245 459,-245 453,-245 447,-239 447,-233 447,-233 447,-193 447,-193 447,-187 453,-181 459,-181"/>
+<text text-anchor="start" x="448" y="-242.4" font-family="Arial" font-size="2.00"> </text>
+<text text-anchor="start" x="448" y="-236.4" font-family="Arial" font-size="7.00"> &#160;6</text>
+<text text-anchor="start" x="462" y="-219.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 5.401</text>
+<text text-anchor="start" x="477.5" y="-202.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 294</text>
+<text text-anchor="start" x="499.5" y="-184.8" font-family="Arial" font-size="9.00"> </text>
+<path fill="none" stroke="#333333" d="M459,-181C459,-181 543,-181 543,-181 549,-181 555,-187 555,-193 555,-193 555,-233 555,-233 555,-239 549,-245 543,-245 543,-245 459,-245 459,-245 453,-245 447,-239 447,-233 447,-233 447,-193 447,-193 447,-187 453,-181 459,-181"/>
+<text text-anchor="start" x="557" y="-209.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
+<text text-anchor="start" x="447.5" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_24h_inflow</text>
 </g>
 <!-- 2&#45;&gt;6 -->
 <g id="edge4" class="edge">
 <title>2&#45;&gt;6</title>
-<path fill="none" stroke="#888888" d="M500,-307.67C500,-299.39 500,-290.83 500,-282.38"/>
-<polygon fill="#888888" stroke="#888888" points="503.5,-282.18 500,-272.18 496.5,-282.18 503.5,-282.18"/>
+<path fill="none" stroke="#888888" d="M501,-307.67C501,-299.39 501,-290.83 501,-282.38"/>
+<polygon fill="#888888" stroke="#888888" points="504.5,-282.18 501,-272.18 497.5,-282.18 504.5,-282.18"/>
 </g>
 <!-- 10 -->
 <g id="node10" class="node">
 <title>10</title>
-<text text-anchor="start" x="705.5" y="-253.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 24.75</text>
-<path fill="#ebebeb" stroke="transparent" d="M689,-181C689,-181 772,-181 772,-181 778,-181 784,-187 784,-193 784,-193 784,-233 784,-233 784,-239 778,-245 772,-245 772,-245 689,-245 689,-245 683,-245 677,-239 677,-233 677,-233 677,-193 677,-193 677,-187 683,-181 689,-181"/>
-<text text-anchor="start" x="678" y="-242.4" font-family="Arial" font-size="2.00"> </text>
-<text text-anchor="start" x="678" y="-236.4" font-family="Arial" font-size="7.00"> &#160;10</text>
-<text text-anchor="start" x="692" y="-219.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 5.911</text>
-<text text-anchor="start" x="710.5" y="-202.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 50</text>
-<text text-anchor="start" x="729" y="-184.8" font-family="Arial" font-size="9.00"> </text>
-<path fill="none" stroke="#333333" d="M689,-181C689,-181 772,-181 772,-181 778,-181 784,-187 784,-193 784,-193 784,-233 784,-233 784,-239 778,-245 772,-245 772,-245 689,-245 689,-245 683,-245 677,-239 677,-233 677,-233 677,-193 677,-193 677,-187 683,-181 689,-181"/>
-<text text-anchor="start" x="695" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">windspeed</text>
+<text text-anchor="start" x="704.5" y="-253.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 24.75</text>
+<path fill="#ebebeb" stroke="transparent" d="M688,-181C688,-181 771,-181 771,-181 777,-181 783,-187 783,-193 783,-193 783,-233 783,-233 783,-239 777,-245 771,-245 771,-245 688,-245 688,-245 682,-245 676,-239 676,-233 676,-233 676,-193 676,-193 676,-187 682,-181 688,-181"/>
+<text text-anchor="start" x="677" y="-242.4" font-family="Arial" font-size="2.00"> </text>
+<text text-anchor="start" x="677" y="-236.4" font-family="Arial" font-size="7.00"> &#160;10</text>
+<text text-anchor="start" x="691" y="-219.8" font-family="Arial" font-weight="bold" font-size="14.00">Mean: 5.911</text>
+<text text-anchor="start" x="709.5" y="-202.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 50</text>
+<text text-anchor="start" x="728" y="-184.8" font-family="Arial" font-size="9.00"> </text>
+<path fill="none" stroke="#333333" d="M688,-181C688,-181 771,-181 771,-181 777,-181 783,-187 783,-193 783,-193 783,-233 783,-233 783,-239 777,-245 771,-245 771,-245 688,-245 688,-245 682,-245 676,-239 676,-233 676,-233 676,-193 676,-193 676,-187 682,-181 688,-181"/>
+<text text-anchor="start" x="694" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">windspeed</text>
 </g>
 <!-- 9&#45;&gt;10 -->
 <g id="edge9" class="edge">
 <title>9&#45;&gt;10</title>
-<path fill="none" stroke="#888888" d="M730,-307.67C730,-299.39 730,-290.83 730,-282.38"/>
-<polygon fill="#888888" stroke="#888888" points="733.5,-282.18 730,-272.18 726.5,-282.18 733.5,-282.18"/>
+<path fill="none" stroke="#888888" d="M729,-307.67C729,-299.39 729,-290.83 729,-282.38"/>
+<polygon fill="#888888" stroke="#888888" points="732.5,-282.18 729,-272.18 725.5,-282.18 732.5,-282.18"/>
 </g>
 <!-- 13 -->
 <g id="node11" class="node">
 <title>13</title>
 <text text-anchor="start" x="980.5" y="-253.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 24.75</text>
-<text text-anchor="start" x="941" y="-209.3" font-family="Arial" font-size="14.00"> &#160;</text>
+<text text-anchor="start" x="937" y="-209.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
 <path fill="#ebebeb" stroke="transparent" d="M963,-181C963,-181 1047,-181 1047,-181 1053,-181 1059,-187 1059,-193 1059,-193 1059,-233 1059,-233 1059,-239 1053,-245 1047,-245 1047,-245 963,-245 963,-245 957,-245 951,-239 951,-233 951,-233 951,-193 951,-193 951,-187 957,-181 963,-181"/>
 <text text-anchor="start" x="952" y="-242.4" font-family="Arial" font-size="2.00"> </text>
 <text text-anchor="start" x="952" y="-236.4" font-family="Arial" font-size="7.00"> &#160;13</text>
@@ -134,14 +134,14 @@
 <text text-anchor="start" x="981.5" y="-202.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 161</text>
 <text text-anchor="start" x="1003.5" y="-184.8" font-family="Arial" font-size="9.00"> </text>
 <path fill="none" stroke="#333333" d="M963,-181C963,-181 1047,-181 1047,-181 1053,-181 1059,-187 1059,-193 1059,-193 1059,-233 1059,-233 1059,-239 1053,-245 1047,-245 1047,-245 963,-245 963,-245 957,-245 951,-239 951,-233 951,-233 951,-193 951,-193 951,-187 957,-181 963,-181"/>
-<text text-anchor="start" x="1061" y="-209.3" font-family="Arial" font-size="14.00"> &#160;</text>
-<text text-anchor="start" x="955.5" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_24_inflow</text>
+<text text-anchor="start" x="1061" y="-209.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
+<text text-anchor="start" x="951.5" y="-166.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_24h_inflow</text>
 </g>
 <!-- 9&#45;&gt;13 -->
 <g id="edge10" class="edge">
 <title>9&#45;&gt;13</title>
-<path fill="none" stroke="#888888" d="M792.06,-331.7C830.51,-310.44 880.36,-282.89 922.17,-259.78"/>
-<polygon fill="#888888" stroke="#888888" points="923.9,-262.83 930.96,-254.93 920.51,-256.7 923.9,-262.83"/>
+<path fill="none" stroke="#888888" d="M791.28,-331.7C828.68,-311.1 876.83,-284.59 917.96,-261.94"/>
+<polygon fill="#888888" stroke="#888888" points="919.82,-264.91 926.89,-257.02 916.44,-258.78 919.82,-264.91"/>
 </g>
 <!-- 4 -->
 <g id="node6" class="node">
@@ -197,8 +197,8 @@
 <!-- 6&#45;&gt;7 -->
 <g id="edge7" class="edge">
 <title>6&#45;&gt;7</title>
-<path fill="none" stroke="#888888" d="M454.33,-153.67C447.29,-144.67 439.96,-135.32 432.8,-126.16"/>
-<polygon fill="#888888" stroke="#888888" points="435.47,-123.89 426.55,-118.18 429.95,-128.21 435.47,-123.89"/>
+<path fill="none" stroke="#888888" d="M454.95,-153.67C447.84,-144.67 440.46,-135.32 433.23,-126.16"/>
+<polygon fill="#888888" stroke="#888888" points="435.87,-123.86 426.93,-118.18 430.38,-128.19 435.87,-123.86"/>
 </g>
 <!-- 8 -->
 <g id="node9" class="node">
@@ -216,8 +216,8 @@
 <!-- 6&#45;&gt;8 -->
 <g id="edge8" class="edge">
 <title>6&#45;&gt;8</title>
-<path fill="none" stroke="#888888" d="M514.2,-153.67C516.24,-145.3 518.34,-136.64 520.42,-128.1"/>
-<polygon fill="#888888" stroke="#888888" points="523.87,-128.72 522.84,-118.18 517.07,-127.06 523.87,-128.72"/>
+<path fill="none" stroke="#888888" d="M514.82,-153.67C516.8,-145.3 518.85,-136.64 520.87,-128.1"/>
+<polygon fill="#888888" stroke="#888888" points="524.32,-128.71 523.22,-118.18 517.51,-127.1 524.32,-128.71"/>
 </g>
 <!-- 11 -->
 <g id="node12" class="node">
@@ -235,8 +235,8 @@
 <!-- 10&#45;&gt;11 -->
 <g id="edge11" class="edge">
 <title>10&#45;&gt;11</title>
-<path fill="none" stroke="#888888" d="M715.8,-153.67C713.76,-145.3 711.66,-136.64 709.58,-128.1"/>
-<polygon fill="#888888" stroke="#888888" points="712.93,-127.06 707.16,-118.18 706.13,-128.72 712.93,-127.06"/>
+<path fill="none" stroke="#888888" d="M715.18,-153.67C713.2,-145.3 711.15,-136.64 709.13,-128.1"/>
+<polygon fill="#888888" stroke="#888888" points="712.49,-127.1 706.78,-118.18 705.68,-128.71 712.49,-127.1"/>
 </g>
 <!-- 12 -->
 <g id="node13" class="node">
@@ -254,8 +254,8 @@
 <!-- 10&#45;&gt;12 -->
 <g id="edge12" class="edge">
 <title>10&#45;&gt;12</title>
-<path fill="none" stroke="#888888" d="M775.67,-153.67C782.71,-144.67 790.04,-135.32 797.2,-126.16"/>
-<polygon fill="#888888" stroke="#888888" points="800.05,-128.21 803.45,-118.18 794.53,-123.89 800.05,-128.21"/>
+<path fill="none" stroke="#888888" d="M775.05,-153.67C782.16,-144.67 789.54,-135.32 796.77,-126.16"/>
+<polygon fill="#888888" stroke="#888888" points="799.62,-128.19 803.07,-118.18 794.13,-123.86 799.62,-128.19"/>
 </g>
 <!-- 14 -->
 <g id="node14" class="node">

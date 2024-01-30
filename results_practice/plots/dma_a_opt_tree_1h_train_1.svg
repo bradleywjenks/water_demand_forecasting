@@ -64,7 +64,7 @@
 <!-- 3 -->
 <g id="node4" class="node">
 <title>3</title>
-<text text-anchor="start" x="44" y="-99.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 14.91</text>
+<text text-anchor="start" x="44" y="-99.8" font-family="Arial" font-weight="bold" font-size="14.00"> &lt; 16.04</text>
 <path fill="#f8766d" fill-opacity="0.874510" stroke="transparent" d="M24,-27C24,-27 114,-27 114,-27 120,-27 126,-33 126,-39 126,-39 126,-79 126,-79 126,-85 120,-91 114,-91 114,-91 24,-91 24,-91 18,-91 12,-85 12,-79 12,-79 12,-39 12,-39 12,-33 18,-27 24,-27"/>
 <text text-anchor="start" x="13" y="-88.4" font-family="Arial" font-size="2.00"> </text>
 <text text-anchor="start" x="13" y="-82.4" font-family="Arial" font-size="7.00"> &#160;3</text>
@@ -83,7 +83,7 @@
 <!-- 4 -->
 <g id="node5" class="node">
 <title>4</title>
-<text text-anchor="start" x="200.5" y="-99.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 14.91</text>
+<text text-anchor="start" x="200.5" y="-99.8" font-family="Arial" font-weight="bold" font-size="14.00"> ≥ 16.04</text>
 <path fill="#f8766d" fill-opacity="0.376471" stroke="transparent" d="M180,-27C180,-27 270,-27 270,-27 276,-27 282,-33 282,-39 282,-39 282,-79 282,-79 282,-85 276,-91 270,-91 270,-91 180,-91 180,-91 174,-91 168,-85 168,-79 168,-79 168,-39 168,-39 168,-33 174,-27 180,-27"/>
 <text text-anchor="start" x="169" y="-88.4" font-family="Arial" font-size="2.00"> </text>
 <text text-anchor="start" x="169" y="-82.4" font-family="Arial" font-size="7.00"> &#160;4</text>

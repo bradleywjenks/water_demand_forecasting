@@ -5,8 +5,8 @@ include("src/functions.jl")
 # Parameter selection for demand forecasting model
 begin
 
-    results_folder = "results_practice" # "results_practice", "results_submission1"
-    dma_id = :dma_b # DMA IDs a to j
+    results_folder = "results_submission1" # "results_practice", "results_submission1"
+    dma_id = :dma_a # DMA IDs a to j
 
     # modify datetimes accordingly
     if results_folder == "results_practice"
