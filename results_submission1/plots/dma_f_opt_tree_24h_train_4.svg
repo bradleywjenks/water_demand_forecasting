@@ -53,7 +53,7 @@
 <text text-anchor="start" x="295.5" y="-338.8" font-family="Arial" font-size="9.00"> </text>
 <path fill="none" stroke="#333333" d="M259,-335C259,-335 335,-335 335,-335 341,-335 347,-341 347,-347 347,-347 347,-387 347,-387 347,-393 341,-399 335,-399 335,-399 259,-399 259,-399 253,-399 247,-393 247,-387 247,-387 247,-347 247,-347 247,-341 253,-335 259,-335"/>
 <text text-anchor="start" x="349" y="-363.3" font-family="Arial" font-size="14.00"> &#160;&#160;&#160;</text>
-<text text-anchor="start" x="244" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168_inflow</text>
+<text text-anchor="start" x="239.5" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168h_inflow</text>
 </g>
 <!-- 1&#45;&gt;3 -->
 <g id="edge2" class="edge">

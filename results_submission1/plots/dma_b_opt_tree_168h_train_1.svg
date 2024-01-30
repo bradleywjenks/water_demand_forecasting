@@ -12,7 +12,7 @@
 <g id="node1" class="node">
 <title>1</title>
 <text text-anchor="start" x="302.5" y="-561.8" font-family="Arial" font-weight="bold" font-size="14.00"> </text>
-<text text-anchor="start" x="237" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
+<text text-anchor="start" x="233" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;&#160;</text>
 <path fill="#ebebeb" stroke="transparent" d="M263,-489C263,-489 346,-489 346,-489 352,-489 358,-495 358,-501 358,-501 358,-541 358,-541 358,-547 352,-553 346,-553 346,-553 263,-553 263,-553 257,-553 251,-547 251,-541 251,-541 251,-501 251,-501 251,-495 257,-489 263,-489"/>
 <text text-anchor="start" x="252" y="-550.4" font-family="Arial" font-size="2.00"> </text>
 <text text-anchor="start" x="252" y="-544.4" font-family="Arial" font-size="7.00"> &#160;1</text>
@@ -20,8 +20,8 @@
 <text text-anchor="start" x="281" y="-510.8" font-family="Arial" font-weight="bold" font-size="14.00">n = 168</text>
 <text text-anchor="start" x="303" y="-492.8" font-family="Arial" font-size="9.00"> </text>
 <path fill="none" stroke="#333333" d="M263,-489C263,-489 346,-489 346,-489 352,-489 358,-495 358,-501 358,-501 358,-541 358,-541 358,-547 352,-553 346,-553 346,-553 263,-553 263,-553 257,-553 251,-547 251,-541 251,-541 251,-501 251,-501 251,-495 257,-489 263,-489"/>
-<text text-anchor="start" x="360" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;</text>
-<text text-anchor="start" x="251.5" y="-474.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168_inflow</text>
+<text text-anchor="start" x="360" y="-517.3" font-family="Arial" font-size="14.00"> &#160;&#160;&#160;</text>
+<text text-anchor="start" x="247" y="-474.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168h_inflow</text>
 </g>
 <!-- 2 -->
 <g id="node2" class="node">
@@ -36,7 +36,7 @@
 <text text-anchor="start" x="221.5" y="-338.8" font-family="Arial" font-size="9.00"> </text>
 <path fill="none" stroke="#333333" d="M185,-335C185,-335 261,-335 261,-335 267,-335 273,-341 273,-347 273,-347 273,-387 273,-387 273,-393 267,-399 261,-399 261,-399 185,-399 185,-399 179,-399 173,-393 173,-387 173,-387 173,-347 173,-347 173,-341 179,-335 185,-335"/>
 <text text-anchor="start" x="275" y="-363.3" font-family="Arial" font-size="14.00"> &#160;&#160;&#160;</text>
-<text text-anchor="start" x="170" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168_inflow</text>
+<text text-anchor="start" x="165.5" y="-320.8" font-family="Arial" font-weight="bold" font-size="14.00">prev_168h_inflow</text>
 </g>
 <!-- 1&#45;&gt;2 -->
 <g id="edge1" class="edge">

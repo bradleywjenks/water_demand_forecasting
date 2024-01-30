@@ -4,7 +4,7 @@ Water demand forcasting code written for WDSA/CCWI 2024 Battle of Water Networks
 - Bertsimas, D. and Dunn, J. (2019). Machine learning under a modern optimization lens. Dynamic Ideas LLC.
 - Bertsimas, D., Pawlowski, C., and Zhuo, Y. D. (2017). 'From predictive methods to missing data imputation: an optimization approach.' The Journal of Machine Learning Research, 18(1), pp:7133--7171.
 
-Please follow Interpretable AI's installation instructions for the Julia programming language here: https://docs.interpretable.ai/stable/installation/. You will need to contact Interpretable AI to obtain the license file. If you are running VSCode, you may need to perform these additional steps:
+Please follow Interpretable AI's installation instructions for the Julia programming language here: https://docs.interpretable.ai/stable/installation/. You will need to contact Interpretable AI to obtain a license file. If you are running VSCode, you may need to perform these additional steps:
 1. Start the IAI Julia version in the REPL and run `Base.julia_cmd()`
 2. Set the output of `Base.julia_cmd()` as the executable path "julia.executablePath" in your VSCode settings, e.g., 
 `{

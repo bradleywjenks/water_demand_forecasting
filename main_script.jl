@@ -6,7 +6,7 @@ include("src/functions.jl")
 begin
 
     results_folder = "results_submission1" # "results_practice", "results_submission1"
-    dma_id = :dma_a # DMA IDs a to j
+    dma_id = :dma_j # DMA IDs a to j
 
     # modify datetimes accordingly
     if results_folder == "results_practice"
