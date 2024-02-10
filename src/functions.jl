@@ -19,8 +19,8 @@ function main_script(dma_id, results_folder, test_start, test_end; impute_data=t
     results_path = pwd() * "/" * results_folder * "/"
 
     # Load time series data from CSV files
-	inflow_df = read_data(data_path, "inflow")
-	weather_df = read_data(data_path, "weather")
+	inflow_df = read_data(data_path, "inflow", results_folder)
+	weather_df = read_data(data_path, "weather", results_folder)
 
     # Data imputation
     X_inflow, X_weather = data_imputer(dma_id, results_path, impute_data, inflow_df, weather_df)
@@ -155,7 +155,11 @@ end
 ###################################################################################################################
 
 
-function read_data(data_path::String, data_type::String)
+function read_data(data_path::String, data_type::String, results_folder::String)
+
+if results_folder == "results_submission1" || results_folder == "results_practice1"
+
+    df_mean = DataFrame()
 
     if data_type == "inflow"
         df = CSV.read(data_path * "InflowData_1.csv", DataFrame)
@@ -164,22 +168,107 @@ function read_data(data_path::String, data_type::String)
     elseif data_type == "weather"
         df = CSV.read(data_path * "WeatherData_1.csv", DataFrame)
         df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
-
     end
 
-    # delete duplicate data from autumn time change
+    # add data at spring 2022 time change
+    n = 10802
+    df_insert = df[n-1:n+1, 2:end]
+    try
+        df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+    end
+    insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
+    # delete duplicate data from autumn 2021 time change
     n = 7274
-    df_delete = df[n:n+1, 2:end]
-    df_mean = mean.(eachcol(df_delete))
-    df[n, 2:end] .= df_mean
+    df_delete = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_delete)))
+    try 
+        df[n, 2:end] = df_mean
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_delete)))
+        df[n, 2:end] = df_mean
+    end
     delete!(df, n+1)
 
-    # add data at spring time change
-    n = 10801
-    df_insert = df[n:n+1, 2:end]
-    mean_cols = mean.(eachcol(df_insert))
-    insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), mean_cols'), names(df))
+    # add data at spring 2021 time change
+    n = 2066
+    df_insert = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    try
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    end
     df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
+
+elseif results_folder == "results_submission2" || results_folder == "results_practice2"
+
+    df_mean = DataFrame()
+
+    if data_type == "inflow"
+        df = CSV.read(data_path * "InflowData_2.csv", DataFrame)
+        df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
+
+    elseif data_type == "weather"
+        df = CSV.read(data_path * "WeatherData_2.csv", DataFrame)
+        df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
+    end
+
+    # delete duplicate data from autumn 2022 time change
+    n = 16010
+    df_delete = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_delete)))
+    try 
+        df[n, 2:end] = df_mean
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_delete)))
+        df[n, 2:end] = df_mean
+    end
+    delete!(df, n+1)
+
+    # add data at spring 2022 time change
+    n = 10802
+    df_insert = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    try
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    end
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
+    # delete duplicate data from autumn 2021 time change
+    n = 7274
+    df_delete = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_delete)))
+    try 
+        df[n, 2:end] = df_mean
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_delete)))
+        df[n, 2:end] = df_mean
+    end
+    delete!(df, n+1)
+
+    # add data at spring 2021 time change
+    n = 2066
+    df_insert = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    try
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    end
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
+end
+
 
     return df
 end
@@ -237,6 +326,9 @@ function data_imputer(dma_id, results_path, impute_data, inflow_df, weather_df)
         insertcols!(X_inflow, 1, :date_time => inflow_df[!, :date_time])
         insertcols!(X_weather, 1, :date_time => weather_df[!, :date_time])
 
+        X_inflow[!, 2:end] .= round.(X_inflow[!, 2:end], digits=2)
+        X_weather[!, 2:end] = round.(X_weather[!, 2:end], digits=2)
+
         # Export imputed datasets to CSV file
         CSV.write(results_path * "imputed_data/inflow_imputed.csv", X_inflow)
         CSV.write(results_path * "imputed_data/weather_imputed.csv", X_weather)
@@ -261,13 +353,13 @@ end
 function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 
     # define holiday dates
-    holiday_dates = [Dates.Date("2021-01-01"), Dates.Date("2021-01-06"), Dates.Date("2021-04-04"), Dates.Date("2021-04-05"), Dates.Date("2021-04-25"), Dates.Date("2021-05-01"), Dates.Date("2021-06-02"), Dates.Date("2021-08-15"), Dates.Date("2021-11-01"), Dates.Date("2021-11-03"), Dates.Date("2021-12-08"), Dates.Date("2021-12-25"), Dates.Date("2021-12-26"), Dates.Date("2022-01-01"), Dates.Date("2022-01-06"), Dates.Date("2022-04-17"), Dates.Date("2021-04-18"), Dates.Date("2022-04-25"), Dates.Date("2022-05-01"), Dates.Date("2022-06-02"), Dates.Date("2022-08-15")]
+    holiday_dates = [Dates.Date("2021-01-01"), Dates.Date("2021-01-06"), Dates.Date("2021-04-04"), Dates.Date("2021-04-05"), Dates.Date("2021-04-25"), Dates.Date("2021-05-01"), Dates.Date("2021-06-02"), Dates.Date("2021-08-15"), Dates.Date("2021-11-01"), Dates.Date("2021-11-03"), Dates.Date("2021-12-08"), Dates.Date("2021-12-25"), Dates.Date("2021-12-26"), Dates.Date("2022-01-01"), Dates.Date("2022-01-06"), Dates.Date("2022-04-17"), Dates.Date("2021-04-18"), Dates.Date("2022-04-25"), Dates.Date("2022-05-01"), Dates.Date("2022-06-02"), Dates.Date("2022-08-15"), Dates.Date("2022-11-01"), Dates.Date("2022-11-03")]
 
     # make new dataframe and add time features
     df_time = DataFrame()
 
     df_time.date_time = weather_df.date_time
-    df_time.quarter = ceil.(Int, Dates.month.(weather_df.date_time) / 3)
+    df_time.quarter = ceil.(Int, Dates.month.(weather_df.date_time) / 3)    
     df_time.month = Dates.month.(weather_df.date_time)
     # df_time.week_of_month = Dates.dayofweekofmonth.(weather_df.date_time)
     df_time.day_of_week = Dates.dayofweek.(weather_df.date_time)
