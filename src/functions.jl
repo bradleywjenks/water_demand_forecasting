@@ -205,7 +205,6 @@ if results_folder == "results_submission1" || results_folder == "results_practic
     end
     df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
 
-
 elseif results_folder == "results_submission2" || results_folder == "results_practice2"
 
     df_mean = DataFrame()
@@ -216,6 +215,67 @@ elseif results_folder == "results_submission2" || results_folder == "results_pra
 
     elseif data_type == "weather"
         df = CSV.read(data_path * "WeatherData_2.csv", DataFrame)
+        df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
+    end
+
+    # delete duplicate data from autumn 2022 time change
+    n = 16010
+    df_delete = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_delete)))
+    try 
+        df[n, 2:end] = df_mean
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_delete)))
+        df[n, 2:end] = df_mean
+    end
+    delete!(df, n+1)
+
+    # add data at spring 2022 time change
+    n = 10802
+    df_insert = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    try
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    end
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
+    # delete duplicate data from autumn 2021 time change
+    n = 7274
+    df_delete = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_delete)))
+    try 
+        df[n, 2:end] = df_mean
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_delete)))
+        df[n, 2:end] = df_mean
+    end
+    delete!(df, n+1)
+
+    # add data at spring 2021 time change
+    n = 2066
+    df_insert = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    try
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    end
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
+elseif results_folder == "results_submission3" || results_folder == "results_practice3"
+
+    df_mean = DataFrame()
+
+    if data_type == "inflow"
+        df = CSV.read(data_path * "InflowData_3.csv", DataFrame)
+        df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
+
+    elseif data_type == "weather"
+        df = CSV.read(data_path * "WeatherData_3.csv", DataFrame)
         df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
     end
 
@@ -353,7 +413,7 @@ end
 function make_dataframe(inflow_df, weather_df, lag_times, dma_id)
 
     # define holiday dates
-    holiday_dates = [Dates.Date("2021-01-01"), Dates.Date("2021-01-06"), Dates.Date("2021-04-04"), Dates.Date("2021-04-05"), Dates.Date("2021-04-25"), Dates.Date("2021-05-01"), Dates.Date("2021-06-02"), Dates.Date("2021-08-15"), Dates.Date("2021-11-01"), Dates.Date("2021-11-03"), Dates.Date("2021-12-08"), Dates.Date("2021-12-25"), Dates.Date("2021-12-26"), Dates.Date("2022-01-01"), Dates.Date("2022-01-06"), Dates.Date("2022-04-17"), Dates.Date("2021-04-18"), Dates.Date("2022-04-25"), Dates.Date("2022-05-01"), Dates.Date("2022-06-02"), Dates.Date("2022-08-15"), Dates.Date("2022-11-01"), Dates.Date("2022-11-03")]
+    holiday_dates = [Dates.Date("2021-01-01"), Dates.Date("2021-01-06"), Dates.Date("2021-04-04"), Dates.Date("2021-04-05"), Dates.Date("2021-04-25"), Dates.Date("2021-05-01"), Dates.Date("2021-06-02"), Dates.Date("2021-08-15"), Dates.Date("2021-11-01"), Dates.Date("2021-11-03"), Dates.Date("2021-12-08"), Dates.Date("2021-12-25"), Dates.Date("2021-12-26"), Dates.Date("2022-01-01"), Dates.Date("2022-01-06"), Dates.Date("2022-04-17"), Dates.Date("2021-04-18"), Dates.Date("2022-04-25"), Dates.Date("2022-05-01"), Dates.Date("2022-06-02"), Dates.Date("2022-08-15"), Dates.Date("2022-11-01"), Dates.Date("2022-11-03"), Dates.Date("2022-12-08"), Dates.Date("2022-12-25"), Dates.Date("2022-12-26"), Dates.Date("2023-01-01"), Dates.Date("2023-01-06")]
 
     # make new dataframe and add time features
     df_time = DataFrame()
