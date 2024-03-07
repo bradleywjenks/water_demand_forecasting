@@ -5,8 +5,8 @@ include("src/functions.jl")
 # Parameter selection for demand forecasting model
 begin
 
-    results_folder = "results_submission3" # "results_practice", "results_submission1", "results_submission2"
-    dma_id = :dma_j # DMA IDs a to j
+    results_folder = "results_practice4" # "results_practice", "results_submission1", "results_submission2"
+    dma_id = :dma_a # DMA IDs a to j
 
     # modify datetimes accordingly
     if results_folder == "results_practice1"
@@ -33,10 +33,18 @@ begin
         test_start = DateTime("2023-01-16T00:00:00")
         test_end = DateTime("2023-01-22T23:00:00")
 
+    elseif results_folder == "results_practice4"
+        test_start = DateTime("2023-02-27T00:00:00")
+        test_end = DateTime("2023-03-05T23:00:00")
+
+    elseif results_folder == "results_submission4"
+        test_start = DateTime("2023-03-06T00:00:00")
+        test_end = DateTime("2023-03-12T23:00:00")
+
     end
 
     # Run data imputation?
-    impute_data = false # run once
+    impute_data = true # run once
 
     # Complexity Parameter
     cp_tune = "auto" # "manual", "auto"

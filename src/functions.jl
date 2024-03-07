@@ -327,6 +327,68 @@ elseif results_folder == "results_submission3" || results_folder == "results_pra
     end
     df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
 
+
+elseif results_folder == "results_submission4" || results_folder == "results_practice4"
+
+    df_mean = DataFrame()
+
+    if data_type == "inflow"
+        df = CSV.read(data_path * "InflowData_4.csv", DataFrame)
+        df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
+
+    elseif data_type == "weather"
+        df = CSV.read(data_path * "WeatherData_4.csv", DataFrame)
+        df.date_time = Dates.DateTime.(df.date_time, "dd/mm/yyyy HH:MM")
+    end
+
+    # delete duplicate data from autumn 2022 time change
+    n = 16010
+    df_delete = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_delete)))
+    try 
+        df[n, 2:end] = df_mean
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_delete)))
+        df[n, 2:end] = df_mean
+    end
+    delete!(df, n+1)
+
+    # add data at spring 2022 time change
+    n = 10802
+    df_insert = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    try
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    end
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
+    # delete duplicate data from autumn 2021 time change
+    n = 7274
+    df_delete = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_delete)))
+    try 
+        df[n, 2:end] = df_mean
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_delete)))
+        df[n, 2:end] = df_mean
+    end
+    delete!(df, n+1)
+
+    # add data at spring 2021 time change
+    n = 2066
+    df_insert = df[n-1:n+1, 2:end]
+    df_mean = mean.(skipmissing.(eachcol(df_insert)))
+    try
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    catch
+        df_mean = median.(skipmissing.(eachcol(df_insert)))
+        insert_data = DataFrame(hcat(DateTime(2022, 3, 27, 2, 0, 0), df_mean'), names(df))
+    end
+    df = vcat(df[1:n, :], insert_data, df[n+1:end, :])
+
 end
 
 
