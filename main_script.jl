@@ -5,8 +5,8 @@ include("src/functions.jl")
 # Parameter selection for demand forecasting model
 begin
 
-    results_folder = "results_practice4" # "results_practice", "results_submission1", "results_submission2"
-    dma_id = :dma_a # DMA IDs a to j
+    results_folder = "results_submission4" # "results_practice", "results_submission1", "results_submission2"
+    dma_id = :dma_c # DMA IDs a to j
 
     # modify datetimes accordingly
     if results_folder == "results_practice1"
@@ -44,7 +44,7 @@ begin
     end
 
     # Run data imputation?
-    impute_data = true # run once
+    impute_data = false # run once
 
     # Complexity Parameter
     cp_tune = "auto" # "manual", "auto"
@@ -74,8 +74,8 @@ main_script(dma_id, results_folder, test_start, test_end; impute_data=impute_dat
 begin
 
     # Start and end dates
-    start_date = DateTime("2023-01-01")
-    end_date = DateTime("2023-01-09")
+    start_date = DateTime("2023-02-01")
+    end_date = DateTime("2023-03-05")
 
     # data
     data_type = "inflow" # "weather"
