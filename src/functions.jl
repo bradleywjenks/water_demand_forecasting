@@ -119,6 +119,8 @@ function main_script(dma_id, results_folder, test_start, test_end; impute_data=t
 
         end
 
+        println("Training time for $n weeks: ", cpu_time, " seconds.")
+
         # Get tree learners
         opt_tree_1h = IAI.get_learner(grid_1h)
         opt_tree_24h = IAI.get_learner(grid_24h)
@@ -636,7 +638,7 @@ function plot_time_series(results_folder, data_type, data_name, start_date, end_
     if data_type == "inflow"
         plot_df = filter(row -> start_date <= row.date_time <= end_date, inflow_df)
         y_label = "Inflow [L/s]"
-        @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, palette=:seaborn_bright, size=(1000, 400), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
+        @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, color="black", style=:dash, size=(1000, 400), legend=false, xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
 
     elseif data_type == "weather"
         plot_df = filter(row -> start_date <= row.date_time <= end_date, weather_df)

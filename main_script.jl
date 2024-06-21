@@ -5,8 +5,8 @@ include("src/functions.jl")
 # Parameter selection for demand forecasting model
 begin
 
-    results_folder = "results_submission4" # "results_practice", "results_submission1", "results_submission2"
-    dma_id = :dma_c # DMA IDs a to j
+    results_folder = "results_practice3" # "results_practice", "results_submission1", "results_submission2"
+    dma_id = :dma_e # DMA IDs a to j
 
     # modify datetimes accordingly
     if results_folder == "results_practice1"
@@ -74,8 +74,8 @@ main_script(dma_id, results_folder, test_start, test_end; impute_data=impute_dat
 begin
 
     # Start and end dates
-    start_date = DateTime("2023-02-01")
-    end_date = DateTime("2023-03-05")
+    start_date = DateTime("2022-12-27T00:00:00")
+    end_date = DateTime("2023-01-15T23:00:00")
 
     # data
     data_type = "inflow" # "weather"
