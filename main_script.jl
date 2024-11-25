@@ -75,7 +75,7 @@ begin
 
     # Start and end dates
     start_date = DateTime("2022-12-27T00:00:00")
-    end_date = DateTime("2023-01-15T23:00:00")
+    end_date = DateTime("2022-12-29T23:00:00")
 
     # data
     data_type = "inflow" # "weather"

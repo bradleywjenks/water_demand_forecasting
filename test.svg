@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="325" height="150" viewBox="0 0 1300 600">
+<defs>
+  <clipPath id="clip780">
+    <rect x="0" y="0" width="1300" height="600"></rect>
+  </clipPath>
+</defs>
+<path clip-path="url(#clip780)" d="M0 600 L1300 600 L1300 0 L0 0  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"></path>
+<defs>
+  <clipPath id="clip781">
+    <rect x="260" y="0" width="911" height="600"></rect>
+  </clipPath>
+</defs>
+<path clip-path="url(#clip780)" d="M47.2441 552.756 L1252.76 552.756 L1252.76 47.2441 L47.2441 47.2441  Z" fill="#ffffff" fill-rule="evenodd" fill-opacity="1"></path>
+<defs>
+  <clipPath id="clip782">
+    <rect x="47" y="47" width="1207" height="507"></rect>
+  </clipPath>
+</defs>
+<polyline clip-path="url(#clip780)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="47.2441,552.756 1252.76,552.756 "></polyline>
+<polyline clip-path="url(#clip780)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:1; fill:none" points="47.2441,552.756 47.2441,47.2441 "></polyline>
+<path clip-path="url(#clip782)" d="M81.3624 392.189 L130.809 432.006 L180.256 454.366 L229.703 459.118 L279.149 456.726 L328.596 432.225 L378.043 295.787 L427.49 78.7206 L476.936 84.0454 L526.383 78.1646 L575.83 83.2028 L625.277 130.468 L674.723 156.62 L724.17 174.549 L773.617 207.02 L823.064 238.681 L872.51 246.399 L921.957 235.615 L971.404 207.963 L1020.85 168.5 L1070.3 160.26 L1119.74 212.479 L1169.19 281.667 L1218.64 333.499 L1218.64 420.261 L1169.19 388.363 L1119.74 331.594 L1070.3 275.567 L1020.85 271.506 L971.404 294.911 L921.957 321.4 L872.51 335.352 L823.064 330.23 L773.617 307.448 L724.17 273.258 L674.723 273.292 L625.277 274.303 L575.83 248.134 L526.383 204.93 L476.936 242.035 L427.49 377.579 L378.043 484.68 L328.596 524.329 L279.149 539.174 L229.703 543.404 L180.256 542.713 L130.809 525.593 L81.3624 485.051  Z" fill="#b1040e" fill-rule="evenodd" fill-opacity="0.2"></path>
+<polyline clip-path="url(#clip782)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:4; stroke-opacity:0; fill:none" points="81.3624,392.189 130.809,432.006 180.256,454.366 229.703,459.118 279.149,456.726 328.596,432.225 378.043,295.787 427.49,78.7206 476.936,84.0454 526.383,78.1646 575.83,83.2028 625.277,130.468 674.723,156.62 724.17,174.549 773.617,207.02 823.064,238.681 872.51,246.399 921.957,235.615 971.404,207.963 1020.85,168.5 1070.3,160.26 1119.74,212.479 1169.19,281.667 1218.64,333.499 "></polyline>
+<polyline clip-path="url(#clip782)" style="stroke:#000000; stroke-linecap:round; stroke-linejoin:round; stroke-width:12; stroke-opacity:1; fill:none" points="81.3624,445.635 130.809,487.151 180.256,505.921 229.703,509.844 279.149,505.242 328.596,479.772 378.043,371.752 427.49,193.816 476.936,148.444 526.383,155.718 575.83,190.406 625.277,224.121 674.723,231.876 724.17,235.51 773.617,266.527 823.064,292.348 872.51,297.198 921.957,284.727 971.404,252.772 1020.85,217.849 1070.3,212.281 1119.74,269.034 1169.19,337.055 1218.64,382.151 "></polyline>
+</svg>

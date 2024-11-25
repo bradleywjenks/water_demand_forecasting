@@ -634,18 +634,63 @@ function plot_time_series(results_folder, data_type, data_name, start_date, end_
 
     inflow_df = CSV.read(results_path * "imputed_data/inflow_imputed.csv", DataFrame)
     weather_df = CSV.read(results_path * "imputed_data/weather_imputed.csv", DataFrame)
+    
+    plot_df = select(inflow_df, [:date_time, data_name])
+    
+    rename!(plot_df, names(plot_df) .=> [:date_time, :data_value])
+    
+    plot_df.date_time = Dates.format.(plot_df.date_time, "HH:MM")
 
-    if data_type == "inflow"
-        plot_df = filter(row -> start_date <= row.date_time <= end_date, inflow_df)
-        y_label = "Inflow [L/s]"
-        @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, color="black", style=:dash, size=(1000, 400), legend=false, xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
+    mean_df = combine(
+        groupby(plot_df, :date_time),
+        :data_value .=> mean => :mean,
+    )
 
-    elseif data_type == "weather"
-        plot_df = filter(row -> start_date <= row.date_time <= end_date, weather_df)
-        y_label = data_name
-        @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, palette=:seaborn_bright, size=(1000, 400), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
+    _5_df = combine(
+        groupby(plot_df, :date_time),
+        :data_value .=> x -> quantile(x, 0.05),
+    )
 
-    end
+    _95_df = combine(
+        groupby(plot_df, :date_time),
+        :data_value .=> x -> quantile(x, 0.95),
+    )
+
+    bounds_df =innerjoin(_5_df, _95_df, on=:date_time, makeunique=true)
+    rename!(bounds_df, [:data_value_function => :_5_perc, :data_value_function_1 => :_95_perc])
+
+    print(mean_df)
+    print(bounds_df)
+
+    # @df bounds_df plot(
+    #     :date_time, :_95_perc, fillrange=:_5_perc, fillalpha=0.2, 
+    #     linecolor=:transparent, fillcolor="#B1040E"
+    # )
+
+    y_label = ""
+    @df mean_df plot(
+        :date_time, :mean, ylabel=y_label, width=3, color="black",
+        style=:solid, size=(325, 150), legend=false, 
+        xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, 
+        ytickfontsize=9, legendfontsize=9, xticks=[], yticks=[], ylims=(50, 110)
+    )
+
+
+
+    # if data_type == "inflow"
+
+    #     plot_df = filter(row -> start_date <= row.date_time <= end_date, inflow_df)
+    #     y_label = ""
+    #     @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, width=3, color="black", style=:solid, size=(325, 150), legend=false, xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9, xticks=[], yticks=[], ylims=(50, 110))
+
+    # elseif data_type == "weather"
+    #     plot_df = filter(row -> start_date <= row.date_time <= end_date, weather_df)
+    #     y_label = data_name
+    #     @df plot_df plot(:date_time, cols([data_name]), ylabel=y_label, palette=:seaborn_bright, size=(1000, 400), xguidefontsize=10, xtickfontsize=9, yguidefontsize=10, ytickfontsize=9, legendfontsize=9)
+
+    # end
 
 
 end
+
+# color="#006CB8"
